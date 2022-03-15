@@ -1,5 +1,7 @@
 // ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Login_Page extends StatefulWidget {
@@ -58,6 +60,7 @@ class _Login_PageState extends State<Login_Page> {
                     )),
                 onSubmitted: (value) {
                   email = value;
+                  print(email);
                 },
               ),
             ),
@@ -76,6 +79,7 @@ class _Login_PageState extends State<Login_Page> {
                     )),
                 onSubmitted: (value) {
                   password = value;
+                  print(password);
                 },
               ),
             ),
@@ -85,12 +89,16 @@ class _Login_PageState extends State<Login_Page> {
             SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: (ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (email == "" || password == "") {
+                        print("Fill all the fields...!!");
+                      }
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(101, 30, 62, 1),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      padding: const EdgeInsets.symmetric(vertical: 15),
                       child: Text(
                         "Log in",
                         style: TextStyle(
