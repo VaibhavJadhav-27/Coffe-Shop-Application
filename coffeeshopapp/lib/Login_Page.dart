@@ -1,7 +1,8 @@
-// ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields
+// ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields, avoid_print
 
 import 'dart:math';
 
+import 'package:coffeeshopapp/Register_Page.dart';
 import 'package:flutter/material.dart';
 
 class Login_Page extends StatefulWidget {
@@ -43,8 +44,9 @@ class _Login_PageState extends State<Login_Page> {
                     style: TextStyle(
                         fontFamily: "Comfortaa",
                         fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 30))),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 30,
+                        color: Color.fromRGBO(101, 30, 62, 1)))),
             SizedBox(
               height: 30,
             ),
@@ -107,7 +109,10 @@ class _Login_PageState extends State<Login_Page> {
                     )))),
             SizedBox(height: 20),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => register_page()));
+                },
                 child: Text(
                   "Create a new account",
                   style: TextStyle(
