@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Login_Page(),
       ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
