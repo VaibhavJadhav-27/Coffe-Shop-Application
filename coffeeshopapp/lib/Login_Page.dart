@@ -1,7 +1,8 @@
 // ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields, avoid_print
 
 import 'dart:math';
-
+import 'package:coffeeshopapp/home_page.dart';
+import 'package:http/http.dart' as http;
 import 'package:coffeeshopapp/Register_Page.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +19,26 @@ class _Login_PageState extends State<Login_Page> {
 
   String email = "";
   String password = "";
+
+  void authenticateuser() async {
+    final body = {'custemail': email, 'custpassword': password};
+    var url = Uri.parse('http://localhost:4000/customer/$email/$password');
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var response = await http.get(url);
+    if (response.statusCode == 200) {
+      print(response.body.toString());
+      print("successfull.!!!");
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Homepage()));
+    } else {
+      print(response.body.toString());
+      print("wrong username");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +81,7 @@ class _Login_PageState extends State<Login_Page> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
+                onChanged: (value) {
                   email = value;
                   print(email);
                 },
@@ -79,7 +100,7 @@ class _Login_PageState extends State<Login_Page> {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
+                onChanged: (value) {
                   password = value;
                   print(password);
                 },
@@ -94,6 +115,8 @@ class _Login_PageState extends State<Login_Page> {
                     onPressed: () {
                       if (email == "" || password == "") {
                         print("Fill all the fields...!!");
+                      } else {
+                        authenticateuser();
                       }
                     },
                     style: ElevatedButton.styleFrom(

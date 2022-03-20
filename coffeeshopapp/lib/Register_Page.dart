@@ -1,6 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_final_fields, camel_case_types, avoid_print, file_names, must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class register_page extends StatelessWidget {
   register_page({Key? key}) : super(key: key);
@@ -16,6 +19,28 @@ class register_page extends StatelessWidget {
   String phoneno = "";
   String pass = "";
   String cpass = "";
+
+  void createUserRequest() async {
+    var url = Uri.parse('http://localhost:4000/customer');
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    print(name);
+    var body = jsonEncode({
+      'custname': name,
+      'custemail': email,
+      'custphoneno': phoneno,
+      'custpassword': pass
+    });
+    var response = await http.post(url, headers: requestHeaders, body: body);
+    if (response.statusCode == 200) {
+      print("Response Status : ${response.statusCode}");
+      print("Response body : " + response.body.toString());
+    } else {
+      print("Duplicate Entries ..!!");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +87,8 @@ class register_page extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
+                onChanged: (value) {
                   name = value;
-                  print(name);
                 },
               ),
             ),
@@ -81,10 +105,6 @@ class register_page extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
-                  email = value;
-                  print(email);
-                },
               ),
             ),
             SizedBox(
@@ -100,10 +120,6 @@ class register_page extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
-                  phoneno = value;
-                  print(phoneno);
-                },
               ),
             ),
             SizedBox(
@@ -119,10 +135,6 @@ class register_page extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
-                  pass = value;
-                  print(pass);
-                },
               ),
             ),
             SizedBox(
@@ -138,10 +150,6 @@ class register_page extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10)),
                     )),
-                onSubmitted: (value) {
-                  cpass = value;
-                  print(cpass);
-                },
               ),
             ),
             SizedBox(
@@ -151,12 +159,24 @@ class register_page extends StatelessWidget {
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: (ElevatedButton(
                     onPressed: () {
+                      name = _name.text;
+                      email = _email.text;
+                      phoneno = _phone.text;
+                      pass = _pass.text;
+                      cpass = _cpass.text;
                       if (email == "" ||
                           pass == "" ||
                           name == "" ||
                           phoneno == "") {
                         print("Fill all the fields...!!");
                       }
+                      if (pass != cpass) {
+                        print("password should be same..!!");
+                      }
+
+                      //print(pass);
+                      createUserRequest();
+                      //postuser();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(101, 30, 62, 1),
@@ -168,7 +188,7 @@ class register_page extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(101, 30, 62, 1)),
+                            color: Colors.white),
                       ),
                     )))),
             TextButton(
