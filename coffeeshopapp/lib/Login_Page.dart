@@ -1,5 +1,6 @@
-// ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields, avoid_print
+// ignore_for_file: file_names, camel_case_types, prefer_const_constructors, unused_import, prefer_final_fields, avoid_print, unused_local_variable, non_constant_identifier_names
 
+import 'dart:convert';
 import 'dart:math';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:http/http.dart' as http;
@@ -20,9 +21,8 @@ class _Login_PageState extends State<Login_Page> {
   String email = "";
   String password = "";
 
-  void authenticateuser() async {
-    final body = {'custemail': email, 'custpassword': password};
-    var url = Uri.parse('http://localhost:4000/customer/$email/$password');
+  void verify_password() async {
+    var url = Uri.parse('http://localhost:4000/login/login/$email/$password');
 
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -31,9 +31,18 @@ class _Login_PageState extends State<Login_Page> {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       print(response.body.toString());
-      print("successfull.!!!");
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Homepage()));
+      print("successful.!!!");
+      var jsonresponse = json.decode(response.body.toString());
+      var status = jsonresponse[0]["status"];
+      if (status == "employee") {
+        var profile = jsonresponse[0]["custemail"];
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => Homepage(
+                      profile: profile,
+                    )));
+      }
     } else {
       print(response.body.toString());
       print("wrong username");
@@ -116,7 +125,7 @@ class _Login_PageState extends State<Login_Page> {
                       if (email == "" || password == "") {
                         print("Fill all the fields...!!");
                       } else {
-                        authenticateuser();
+                        verify_password();
                       }
                     },
                     style: ElevatedButton.styleFrom(

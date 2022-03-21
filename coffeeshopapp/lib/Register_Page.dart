@@ -21,7 +21,7 @@ class register_page extends StatelessWidget {
   String cpass = "";
 
   void createUserRequest() async {
-    var url = Uri.parse('http://localhost:4000/customer');
+    var url = Uri.parse('http://127.0.0.1:4000/customer/customer');
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -176,7 +176,6 @@ class register_page extends StatelessWidget {
 
                       //print(pass);
                       createUserRequest();
-                      //postuser();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(101, 30, 62, 1),
