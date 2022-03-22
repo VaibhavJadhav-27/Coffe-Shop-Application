@@ -4,6 +4,7 @@ const app = express();
 const cors = require('cors')
 const login = require('./routes/login');
 const customer = require('./routes/customer');
+const menu = require("./routes/menu");
 
 //Settings
 app.set('port', process.env.PORT || 4000);
@@ -15,6 +16,7 @@ app.use(cors());
 //Routes
 app.use("/login", login);
 app.use("/customer", customer);
+app.use("/menu", menu);
 
 
 //Starting the server
