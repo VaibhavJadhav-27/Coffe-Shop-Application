@@ -22,7 +22,8 @@ class _Login_PageState extends State<Login_Page> {
   String password = "";
 
   void verify_password() async {
-    var url = Uri.parse('http://localhost:4000/login/login/$email/$password');
+    var url =
+        Uri.parse('http://192.168.0.103:4000/login/login/$email/$password');
 
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -34,7 +35,7 @@ class _Login_PageState extends State<Login_Page> {
       print("successful.!!!");
       var jsonresponse = json.decode(response.body.toString());
       var status = jsonresponse[0]["status"];
-      if (status == "employee") {
+      if (status == "customer") {
         var profile = jsonresponse[0]["custemail"];
         Navigator.push(
             context,

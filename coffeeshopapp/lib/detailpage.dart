@@ -1,9 +1,10 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors
+// ignore_for_file: camel_case_types, prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
 
 import 'package:flutter/material.dart';
 
 class detailpage extends StatefulWidget {
-  const detailpage({Key? key}) : super(key: key);
+  final String itemname;
+  detailpage({Key? key, required this.itemname}) : super(key: key);
 
   @override
   State<detailpage> createState() => _detailpageState();
@@ -12,6 +13,8 @@ class detailpage extends StatefulWidget {
 class _detailpageState extends State<detailpage> {
   @override
   Widget build(BuildContext context) {
+    String itemname = widget.itemname;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -19,14 +22,14 @@ class _detailpageState extends State<detailpage> {
           children: [
             Stack(alignment: AlignmentDirectional.center, children: [
               Image.asset(
-                "assets/images/cafemoocha.png",
+                "assets/images/cafemocha.png",
               ),
               Positioned(
                 child: Image.asset("assets/images/rectangle.png"),
                 bottom: -10.0,
               ),
             ]),
-            Text("hello")
+            Text("hello" + itemname)
           ],
         )),
       ),

@@ -35,16 +35,7 @@ class _MenuPageState extends State<MenuPage> {
           u["itemcategory"], u["itemimage"], u["itemprice"]);
       menuitems.add(menu);
     }
-    for (var u in menujson) {
-      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
-          u["itemcategory"], u["itemimage"], u["itemprice"]);
-      menuitems.add(menu);
-    }
-    for (var u in menujson) {
-      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
-          u["itemcategory"], u["itemimage"], u["itemprice"]);
-      menuitems.add(menu);
-    }
+
     //print(menuitems.length);
     lengthit = menuitems.length;
     print(lengthit);
@@ -141,7 +132,7 @@ class _MenuPageState extends State<MenuPage> {
                           ],
                         ),
                       );
-                    })*/
+                    })
                 SizedBox(
                   height: 500,
                   child: FutureBuilder(
@@ -159,35 +150,119 @@ class _MenuPageState extends State<MenuPage> {
                                 return Card(
                                     child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    SizedBox(
-                                      height: 50,
-                                      child: Row(
+                                    /*SizedBox(
+                                      height: 100,
+                                      child: */
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Expanded(
+                                          child: Image.asset(
+                                            snapshot.data[index].itemimage,
+                                            //scale: 0.9,
+                                            //height: 50,
+                                          ),
+                                        ),
+                                        Column(
+                                          children: [
+                                            Text(snapshot.data[index].itemname),
+                                            Text(snapshot.data[index].itemprice
+                                                .toString())
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                    //)
+                                  ],
+                                ));
+                              }
+                            });
+                      }),
+                ),*/
+                SizedBox(
+                  height: 470,
+                  child: FutureBuilder(
+                      future: displayMenu(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return GridView.builder(
+                            itemCount: lengthit,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
+                            itemBuilder: (BuildContext context, int index) {
+                              if (snapshot.data == null) {
+                                return Container(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.white),
+                                    onPressed: () {
+                                      String iname =
+                                          snapshot.data[index].itemname;
+                                      print(iname);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  detailpage(itemname: iname)));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                            MainAxisAlignment.center,
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
+                                          /*SizedBox(
+                                        height: 100,
+                                        child: */
                                           Expanded(
                                             child: Image.asset(
                                               snapshot.data[index].itemimage,
-                                              scale: 0.2,
+                                              fit: BoxFit.cover,
+                                              //scale: 0.9,
                                               //height: 50,
                                             ),
                                           ),
-                                          Column(
-                                            children: [
-                                              Text(snapshot
-                                                  .data[index].itemname),
-                                              Text(snapshot
-                                                  .data[index].itemprice
-                                                  .toString())
-                                            ],
-                                          )
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Text(
+                                              snapshot.data[index].itemname,
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Text(
+                                              "Rs. " +
+                                                  snapshot.data[index].itemprice
+                                                      .toString(),
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          //)
                                         ],
                                       ),
-                                    )
-                                  ],
-                                ));
+                                    ),
+                                  ),
+                                );
                               }
                             });
                       }),
@@ -237,12 +312,7 @@ class _MenuPageState extends State<MenuPage> {
                         child: Column(
                           children: [
                             IconButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => detailpage()));
-                                },
+                                onPressed: () {},
                                 icon: Image.asset(
                                   "assets/images/document.png",
                                   height: 24,
