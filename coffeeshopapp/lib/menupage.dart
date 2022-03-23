@@ -1,7 +1,12 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, unused_local_variable, avoid_print, unused_import, unnecessary_null_comparison, avoid_unnecessary_containers
 
+import 'dart:convert';
+import 'dart:async';
 import 'package:coffeeshopapp/detailpage.dart';
+import 'package:coffeeshopapp/display%20products.dart';
+import 'package:coffeeshopapp/menuclass.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class MenuPage extends StatefulWidget {
   const MenuPage({Key? key}) : super(key: key);
@@ -11,6 +16,47 @@ class MenuPage extends StatefulWidget {
 }
 
 class _MenuPageState extends State<MenuPage> {
+  late List data;
+  int lengthit = 5;
+
+  Future<List<Menu>> displayMenu() async {
+    //var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
+    var url = Uri.parse('http://192.168.0.103:4000/menu/menu');
+
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var response = await http.get(url, headers: requestHeaders);
+    var menujson = json.decode(response.body);
+    List<Menu> menuitems = [];
+    for (var u in menujson) {
+      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
+          u["itemcategory"], u["itemimage"], u["itemprice"]);
+      menuitems.add(menu);
+    }
+    for (var u in menujson) {
+      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
+          u["itemcategory"], u["itemimage"], u["itemprice"]);
+      menuitems.add(menu);
+    }
+    for (var u in menujson) {
+      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
+          u["itemcategory"], u["itemimage"], u["itemprice"]);
+      menuitems.add(menu);
+    }
+    //print(menuitems.length);
+    lengthit = menuitems.length;
+    print(lengthit);
+    return menuitems;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    displayMenu();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,7 +91,11 @@ class _MenuPageState extends State<MenuPage> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(onPressed: () {}, child: Text("data")),
+                ElevatedButton(
+                    onPressed: () {
+                      displayMenu();
+                    },
+                    child: Text("data")),
                 SizedBox(
                   height: 15,
                 ),
@@ -59,6 +109,88 @@ class _MenuPageState extends State<MenuPage> {
                 ),
                 SizedBox(
                   height: 15,
+                ),
+                /*
+                ListView.builder(
+                    itemCount: data == null ? 0 : data.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 50,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Image.asset(
+                                    data[index].itemimage,
+                                    height: 50,
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(data[index].itemname),
+                                      Text(data[index].itemprice.toString())
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      );
+                    })*/
+                SizedBox(
+                  height: 500,
+                  child: FutureBuilder(
+                      future: displayMenu(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return ListView.builder(
+                            itemCount: lengthit,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context, int index) {
+                              if (snapshot.data == null) {
+                                return Container(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Card(
+                                    child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    SizedBox(
+                                      height: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          Expanded(
+                                            child: Image.asset(
+                                              snapshot.data[index].itemimage,
+                                              scale: 0.2,
+                                              //height: 50,
+                                            ),
+                                          ),
+                                          Column(
+                                            children: [
+                                              Text(snapshot
+                                                  .data[index].itemname),
+                                              Text(snapshot
+                                                  .data[index].itemprice
+                                                  .toString())
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ));
+                              }
+                            });
+                      }),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.max,

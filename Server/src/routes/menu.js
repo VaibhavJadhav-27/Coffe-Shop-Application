@@ -49,7 +49,7 @@ router2.post('/:menu', (req, res) => {
     var itemid = req.body.itemid;
     var itemname = req.body.itemname;
     var itemdesc = req.body.itemdesc;
-    var itemcategory = req.body.itemid;
+    var itemcategory = req.body.itemcategory;
     var itemimage = req.body.itemimage;
     var itemprice = req.body.itemprice;
     console.log(itemid);
