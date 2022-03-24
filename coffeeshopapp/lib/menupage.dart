@@ -21,7 +21,7 @@ class _MenuPageState extends State<MenuPage> {
 
   Future<List<Menu>> displayMenu() async {
     //var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
-    var url = Uri.parse('http://192.168.0.103:4000/menu/menu');
+    var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
 
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
@@ -208,12 +208,23 @@ class _MenuPageState extends State<MenuPage> {
                                     onPressed: () {
                                       String iname =
                                           snapshot.data[index].itemname;
+                                      String iimage =
+                                          snapshot.data[index].itemimage;
+                                      String idesc =
+                                          snapshot.data[index].itemdesc;
+                                      String iprice = snapshot
+                                          .data[index].itemprice
+                                          .toString();
                                       print(iname);
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                              builder: (context) =>
-                                                  detailpage(itemname: iname)));
+                                              builder: (context) => detailpage(
+                                                    itemname: iname,
+                                                    itemdesc: idesc,
+                                                    itemimage: iimage,
+                                                    itemprice: iprice,
+                                                  )));
                                     },
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
