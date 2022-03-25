@@ -1,7 +1,5 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables, unused_local_variable
 
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:coffeeshopapp/menuclass.dart';
 import 'package:flutter/material.dart';
 
