@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, unused_local_variable, avoid_print, unused_import, unnecessary_null_comparison, avoid_unnecessary_containers, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, unused_local_variable, avoid_print, unused_import, unnecessary_null_comparison, avoid_unnecessary_containers, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'dart:convert';
 import 'dart:async';

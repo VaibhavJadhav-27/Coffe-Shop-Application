@@ -17,6 +17,18 @@ router.get('/:customer', (req, res) => {
     });
 });
 
+router.get('/:customer/:custname', (req, res) => {
+    var custname = req.params.custname;
+    console.log(custname);
+    mysqlConnection.query('select * from customer where custname = ?;',[custname], (error, rows, fields) => {
+        if (!error) {
+            res.json(rows);
+        } else {
+            console.log(error);
+        }
+    });
+});
+
 router.get('/:customer1/:custemail/:custpassword', (req, res) => {
     var email = req.params.custemail;
     var password = req.params.custpassword;
