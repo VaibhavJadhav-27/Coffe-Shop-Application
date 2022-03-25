@@ -111,7 +111,7 @@ class _HomepageState extends State<Homepage> {
                   "Life is like coffee; the darker it gets, the more it energizes",
                   style: TextStyle(
                     fontSize: 20,
-                    color: Color.fromRGBO(21, 102, 59, 1),
+                    color: Color.fromRGBO(101, 30, 62, 1),
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.bold,
                   ),
