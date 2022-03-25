@@ -50,30 +50,33 @@ class _detailpageState extends State<detailpage> {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Stack(alignment: AlignmentDirectional.topStart, children: [
-            Image.asset(
-              itemimage,
-              scale: 0.3,
-              fit: BoxFit.cover,
-            ),
-            Positioned(
-              child: Image.asset("assets/images/rectangle.png"),
-              bottom: -10.0,
-            ),
-            Positioned(
-              bottom: 15.0,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Text(
-                  itemname,
-                  style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.6,
+            child: Stack(alignment: AlignmentDirectional.topStart, children: [
+              Image.asset(
+                itemimage,
+                scale: 0.3,
+                fit: BoxFit.cover,
+              ),
+              Positioned(
+                child: Image.asset("assets/images/rectangle.png"),
+                bottom: -10.0,
+              ),
+              Positioned(
+                bottom: 15.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text(
+                    itemname,
+                    style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black),
+                  ),
                 ),
               ),
-            ),
-          ]),
+            ]),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 13),
             child: Text(itemdesc,

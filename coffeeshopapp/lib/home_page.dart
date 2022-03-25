@@ -1,6 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers, unused_local_variable, prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables
 
+import 'package:coffeeshopapp/detailpage.dart';
+import 'package:coffeeshopapp/menuclass.dart';
 import 'package:coffeeshopapp/menupage.dart';
+import 'package:coffeeshopapp/profilepage.dart';
 import 'package:flutter/material.dart';
 
 class Homepage extends StatefulWidget {
@@ -15,6 +18,50 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     String profile = widget.profile;
+    int lengthit = 2;
+
+    Future<List<Menu>> recommend() async {
+      List<Menu> recommenditems = [];
+      Menu items = Menu(
+          1,
+          "Cappuccino",
+          "A cappuccino is a popular coffee drink that is made by topping a shot of espresso with steamed milk and milk foam.",
+          "hotcoffee",
+          "assets/images/cappuccino.png",
+          80);
+      recommenditems.add(items);
+
+      items = Menu(
+          12,
+          "Donuts",
+          "A small fried cake of sweetened dough, typically in the shape of a ball or ring",
+          "desserts",
+          "assets/images/donuts.png",
+          90);
+      recommenditems.add(items);
+
+      items = Menu(
+          4,
+          "Cafe Latte",
+          "Latte is a unique coffee drink that is commonly made by using espresso, steamed milk, and milk foam.",
+          "hotcoffee",
+          "assets/images/cafelatte.png",
+          100);
+      recommenditems.add(items);
+
+      items = Menu(
+          14,
+          "Muffins",
+          " A bread made of batter containing egg and baked in a pan having cuplike molds",
+          "desserts",
+          "assets/images/muffin.jpg",
+          80);
+      recommenditems.add(items);
+
+      lengthit = recommenditems.length;
+      print(recommenditems);
+      return recommenditems;
+    }
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -46,7 +93,7 @@ class _HomepageState extends State<Homepage> {
                         color: Colors.black,
                         fontWeight: FontWeight.bold)),
                 SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Text("Lets have a coffee and unwind",
                     style: TextStyle(
@@ -55,10 +102,22 @@ class _HomepageState extends State<Homepage> {
                         fontWeight: FontWeight.normal)),
                 Image.asset(
                   "assets/images/unsplash_homepic.png",
-                  height: 200,
+                  height: 230,
                 ),
                 SizedBox(
-                  height: 15,
+                  height: 10,
+                ),
+                Text(
+                  "Life is like coffee; the darker it gets, the more it energizes",
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Color.fromRGBO(21, 102, 59, 1),
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(
+                  height: 38,
                 ),
                 Text(
                   "Recommended to you",
@@ -67,9 +126,92 @@ class _HomepageState extends State<Homepage> {
                 SizedBox(
                   height: 15,
                 ),
-                Text("Sweet Delights",
-                    style:
-                        TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                SizedBox(
+                  height: 150,
+                  child: FutureBuilder(
+                      future: recommend(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        return GridView.builder(
+                            itemCount: lengthit,
+                            scrollDirection: Axis.horizontal,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 1),
+                            itemBuilder: (BuildContext context, int index) {
+                              if (snapshot.data == null) {
+                                return Container(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        primary: Colors.white),
+                                    onPressed: () {
+                                      String iname =
+                                          snapshot.data[index].itemname;
+                                      String iimage =
+                                          snapshot.data[index].itemimage;
+                                      String idesc =
+                                          snapshot.data[index].itemdesc;
+                                      String iprice = snapshot
+                                          .data[index].itemprice
+                                          .toString();
+                                      print(iname);
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => detailpage(
+                                                    itemname: iname,
+                                                    itemdesc: idesc,
+                                                    itemimage: iimage,
+                                                    itemprice: iprice,
+                                                  )));
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          /*SizedBox(
+                                        height: 100,
+                                        child: */
+                                          Expanded(
+                                            child: Image.asset(
+                                              snapshot.data[index].itemimage,
+                                              fit: BoxFit.cover,
+                                              //scale: 0.9,
+                                              //height: 50,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                vertical: 5),
+                                            child: Text(
+                                              snapshot.data[index].itemname,
+                                              style: TextStyle(
+                                                  fontSize: 15,
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                          //)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
+                            });
+                      }),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -150,7 +292,12 @@ class _HomepageState extends State<Homepage> {
                         child: Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    (MaterialPageRoute(
+                                        builder: (context) => ProfilePage())));
+                              },
                               icon: Icon(Icons.person),
                               iconSize: 30,
                             ),

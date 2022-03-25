@@ -1,10 +1,11 @@
-// ignore_for_file: prefer_const_constructors, deprecated_member_use, unused_local_variable, avoid_print, unused_import, unnecessary_null_comparison, avoid_unnecessary_containers
+// ignore_for_file: prefer_const_constructors, deprecated_member_use, unused_local_variable, avoid_print, unused_import, unnecessary_null_comparison, avoid_unnecessary_containers, prefer_typing_uninitialized_variables
 
 import 'dart:convert';
 import 'dart:async';
 import 'package:coffeeshopapp/detailpage.dart';
 import 'package:coffeeshopapp/display%20products.dart';
 import 'package:coffeeshopapp/menuclass.dart';
+import 'package:coffeeshopapp/profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -18,11 +19,41 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   late List data;
   int lengthit = 5;
+  bool hotcoffee = false;
+  bool coldcoffee = false;
+  bool desserts = false;
 
   Future<List<Menu>> displayMenu() async {
     //var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
-    var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
+    /*var url = Uri.parse('http://10.0.2.2:4000/menu/menu');
 
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var response = await http.get(url, headers: requestHeaders);
+    var menujson = json.decode(response.body);
+    List<Menu> menuitems = [];
+    for (var u in menujson) {
+      Menu menu = Menu(u["itemid"], u["itemname"], u["itemdesc"],
+          u["itemcategory"], u["itemimage"], u["itemprice"]);
+      menuitems.add(menu);
+    }*/
+
+    var url = Uri.parse('http://192.168.0.103:4000/menu/menu');
+    if (hotcoffee == false && coldcoffee == false && desserts == false) {
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu');
+    }
+    if (hotcoffee == true) {
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/hotcoffee');
+    }
+    if (coldcoffee == true) {
+      url =
+          Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/coldcoffee');
+    }
+    if (desserts == true) {
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/desserts');
+    }
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -82,11 +113,76 @@ class _MenuPageState extends State<MenuPage> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                    onPressed: () {
-                      displayMenu();
-                    },
-                    child: Text("data")),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: (hotcoffee == true)
+                                  ? Color.fromRGBO(21, 102, 59, 1)
+                                  : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0))),
+                          onPressed: () {
+                            setState(() {
+                              hotcoffee = !hotcoffee;
+                              coldcoffee = false;
+                              desserts = false;
+                            });
+                            displayMenu();
+                          },
+                          child: Text(
+                            "Hot Coffee",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: (coldcoffee == true)
+                                  ? Color.fromRGBO(21, 102, 59, 1)
+                                  : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0))),
+                          onPressed: () {
+                            setState(() {
+                              coldcoffee = !coldcoffee;
+                              hotcoffee = false;
+                              desserts = false;
+                              displayMenu();
+                            });
+                          },
+                          child: Text(
+                            "Cold Coffee",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          )),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: (desserts == true)
+                                  ? Color.fromRGBO(21, 102, 59, 1)
+                                  : Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30.0))),
+                          onPressed: () {
+                            setState(() {
+                              desserts = !desserts;
+                              hotcoffee = false;
+                              coldcoffee = false;
+                            });
+                            displayMenu();
+                          },
+                          child: Text(
+                            "Desserts",
+                            style: TextStyle(fontSize: 15, color: Colors.black),
+                          )),
+                    ),
+                  ],
+                ),
                 SizedBox(
                   height: 15,
                 ),
@@ -355,7 +451,12 @@ class _MenuPageState extends State<MenuPage> {
                         child: Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    (MaterialPageRoute(
+                                        builder: (context) => ProfilePage())));
+                              },
                               icon: Icon(Icons.person),
                               iconSize: 30,
                             ),
