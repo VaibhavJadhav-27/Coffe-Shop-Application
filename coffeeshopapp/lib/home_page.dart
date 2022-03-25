@@ -243,7 +243,9 @@ class _HomepageState extends State<Homepage> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => MenuPage()));
+                                          builder: (context) => MenuPage(
+                                                profile: profile,
+                                              )));
                                 },
                                 icon: Image.asset(
                                   "assets/images/cup.png",
@@ -296,7 +298,9 @@ class _HomepageState extends State<Homepage> {
                                 Navigator.push(
                                     context,
                                     (MaterialPageRoute(
-                                        builder: (context) => ProfilePage())));
+                                        builder: (context) => ProfilePage(
+                                              custname: profile,
+                                            ))));
                               },
                               icon: Icon(Icons.person),
                               iconSize: 30,

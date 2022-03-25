@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({Key? key}) : super(key: key);
+  String profile;
+  MenuPage({Key? key, required this.profile}) : super(key: key);
 
   @override
   State<MenuPage> createState() => _MenuPageState();
@@ -81,6 +82,8 @@ class _MenuPageState extends State<MenuPage> {
 
   @override
   Widget build(BuildContext context) {
+    String profile = widget.profile;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: SafeArea(
@@ -455,7 +458,9 @@ class _MenuPageState extends State<MenuPage> {
                                 Navigator.push(
                                     context,
                                     (MaterialPageRoute(
-                                        builder: (context) => ProfilePage())));
+                                        builder: (context) => ProfilePage(
+                                              custname: profile,
+                                            ))));
                               },
                               icon: Icon(Icons.person),
                               iconSize: 30,
