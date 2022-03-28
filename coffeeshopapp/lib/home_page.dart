@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_unnecessary_containers, unused_local_variable, prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, avoid_print
 
+import 'package:coffeeshopapp/cartpage.dart';
 import 'package:coffeeshopapp/detailpage.dart';
 import 'package:coffeeshopapp/menuclass.dart';
 import 'package:coffeeshopapp/menupage.dart';
@@ -282,7 +283,13 @@ class _HomepageState extends State<Homepage> {
                         child: Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    (MaterialPageRoute(
+                                        builder: (context) =>
+                                            cartpage(profile: profile))));
+                              },
                               icon: Icon(Icons.shopping_cart_outlined),
                               iconSize: 30,
                             ),

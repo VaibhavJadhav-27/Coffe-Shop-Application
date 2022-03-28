@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables, unused_local_variable, unused_element, prefer_const_literals_to_create_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, must_be_immutable, prefer_const_constructors_in_immutables, unused_local_variable, unused_element, prefer_const_literals_to_create_immutables, avoid_print, prefer_final_fields
 
 import 'package:coffeeshopapp/menuclass.dart';
 import 'package:flutter/material.dart';
@@ -81,11 +81,11 @@ class _detailpageState extends State<detailpage> {
         } else {
           quantity1;
         }
-        print("valur of quantity in updatequantity inset state : " + quantity1);
+        print("value of quantity in updatequantity inset state : " + quantity1);
         totalprice = int.parse(itemprice) * int.parse(quantity1);
         print(totalprice.toString());
       });
-      print("valur of quantity outside set state : " + quantity1);
+      print("value of quantity outside set state : " + quantity1);
       print("total out of set state :" + totalprice.toString());
     }
 
@@ -282,7 +282,7 @@ class _detailpageState extends State<detailpage> {
                         setState(() {
                           quantity1 = value;
                           print(
-                              "Valur of quantity when pressed : " + quantity1);
+                              "Value of quantity when pressed : " + quantity1);
                           updatequantity();
                         });
                       },
