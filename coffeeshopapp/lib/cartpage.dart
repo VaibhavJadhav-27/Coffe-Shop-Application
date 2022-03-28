@@ -1,8 +1,9 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print
+// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print, unused_element, avoid_unnecessary_containers
 
 import 'dart:convert';
 
 import 'package:coffeeshopapp/cartclass.dart';
+import 'package:coffeeshopapp/menupage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -16,6 +17,11 @@ class cartpage extends StatefulWidget {
 
 class _cartpageState extends State<cartpage> {
   int lengthct = 0;
+  int total = 0;
+  late int previous_total;
+  bool check = false;
+  late int cid;
+  late int iid;
   @override
   Widget build(BuildContext context) {
     String profile = widget.profile;
@@ -51,12 +57,66 @@ class _cartpageState extends State<cartpage> {
             u["itemprice"],
             u["itemquantity"],
             u["totalamount"]);
+
+        total = total + cart.totalamount;
+
         cartitems.add(cart);
       }
       lengthct = cartitems.length;
       print(lengthct);
       //print(cartitems);
+      print("Total price : " + total.toString());
       return cartitems;
+    }
+
+    createAlertDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.all(10),
+              backgroundColor: Color.fromRGBO(21, 102, 59, 1),
+              elevation: 20,
+              title: Text(
+                "Delete item from Cart ?",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      check = true;
+                      previous_total = total;
+                      var url = Uri.parse(
+                          'http://192.168.0.103:4000/cart/cart/delete/$cid/$iid');
+                      var response = await http.delete(url);
+                      var result = json.decode(response.body);
+                      print("Response Status code : ${response.statusCode}");
+                      print("Response body : " + response.body.toString());
+                      setState(() {
+                        displaycart();
+                        if (previous_total < total) {
+                          total = previous_total;
+                        }
+                        print(total);
+                      });
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    )),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "No",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ))
+              ],
+            );
+          });
     }
 
     @override
@@ -97,7 +157,12 @@ class _cartpageState extends State<cartpage> {
               child: OutlinedButton(
                   style: OutlinedButton.styleFrom(
                       side: BorderSide(width: 1, style: BorderStyle.solid)),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MenuPage(profile: profile)));
+                  },
                   child: Padding(
                     padding: const EdgeInsets.only(
                         left: 90, right: 90, top: 10, bottom: 10),
@@ -130,7 +195,12 @@ class _cartpageState extends State<cartpage> {
                         itemBuilder: (BuildContext context, int index) {
                           if (snapshot.data == null) {
                             return Container(
-                              child: Text("No items in Cart..!!"),
+                              child: Text(
+                                "No items in Cart..!!",
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                textAlign: TextAlign.center,
+                              ),
                             );
                           } else {
                             return Container(
@@ -156,11 +226,15 @@ class _cartpageState extends State<cartpage> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            snapshot.data[index].itemname,
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 5),
+                                            child: Text(
+                                              snapshot.data[index].itemname,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
                                           ),
                                           Text(
                                             snapshot.data[index].itemquantity
@@ -182,21 +256,9 @@ class _cartpageState extends State<cartpage> {
                                       ),
                                       IconButton(
                                           onPressed: () async {
-                                            int custid =
-                                                snapshot.data[index].custid;
-                                            int itemid =
-                                                snapshot.data[index].itemid;
-                                            var url = Uri.parse(
-                                                'http://192.168.0.103:4000/cart/cart/delete/$custid/$itemid');
-                                            var response =
-                                                await http.delete(url);
-                                            var result =
-                                                json.decode(response.body);
-                                            print(
-                                                "Response Status code : ${response.statusCode}");
-                                            print("Response body : " +
-                                                response.body.toString());
-                                            displaycart();
+                                            cid = snapshot.data[index].custid;
+                                            iid = snapshot.data[index].itemid;
+                                            createAlertDialog(context);
                                           },
                                           icon: Icon(
                                             Icons.delete_rounded,
@@ -209,6 +271,25 @@ class _cartpageState extends State<cartpage> {
                         });
                   }),
             ),
+            SizedBox(
+              height: 30,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+                child: Text(
+                  "Checkout",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(21, 102, 59, 1)),
+            )
           ],
         ),
       ),
