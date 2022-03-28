@@ -90,12 +90,12 @@ router5.put('/:cart', (req, res) => {
 });
 
 
-router5.delete('/cart', (req, res) => {
-    var itemname = req.body.itemname;
-    var custid = req.body.custid;
+router5.delete('/:cart/delete/:custid/:itemid', (req, res) => {
+    var itemid = req.params.itemid;
+    var custid = req.params.custid;
     console.log(custid);
-    console.log(itemname);
-    mysqlConnection.query('delete from cart where itemname =? and custid=?', [itemname, custid], (error, rows, fields) => {
+    console.log(itemid);
+    mysqlConnection.query('delete from cart where custid =? and itemid=?', [ custid,itemid], (error, rows, fields) => {
         if (!error) {
             res.json({ Status: 'Cart item deleted ...!!' });
         } else {

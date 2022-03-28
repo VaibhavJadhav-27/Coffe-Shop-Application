@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print
 
 import 'dart:convert';
 
@@ -38,8 +38,9 @@ class _cartpageState extends State<cartpage> {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       };
-      var response = await http.get(url1, headers: requestHeaders);
+      var response = await http.get(url, headers: requestHeaders);
       var cartjson = json.decode(response.body);
+      print(cartjson);
       List<Cart> cartitems = [];
       for (var u in cartjson) {
         Cart cart = Cart(
@@ -54,7 +55,14 @@ class _cartpageState extends State<cartpage> {
       }
       lengthct = cartitems.length;
       print(lengthct);
+      //print(cartitems);
       return cartitems;
+    }
+
+    @override
+    void initState() {
+      super.initState();
+      displaycart();
     }
 
     return Scaffold(
@@ -113,7 +121,93 @@ class _cartpageState extends State<cartpage> {
               ),
             ),
             SizedBox(
-              height: 300,
+              height: 400,
+              child: FutureBuilder(
+                  future: displaycart(),
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    return ListView.builder(
+                        itemCount: lengthct,
+                        itemBuilder: (BuildContext context, int index) {
+                          if (snapshot.data == null) {
+                            return Container(
+                              child: Text("No items in Cart..!!"),
+                            );
+                          } else {
+                            return Container(
+                              child: Padding(
+                                  padding: EdgeInsets.all(10),
+                                  child: Row(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        height: 80,
+                                        width: 80,
+                                        child: Expanded(
+                                          child: Image.asset(
+                                              snapshot.data[index].itemimage),
+                                        ),
+                                      ),
+                                      Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            snapshot.data[index].itemname,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                          Text(
+                                            snapshot.data[index].itemquantity
+                                                    .toString() +
+                                                "x",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15),
+                                          ),
+                                          Text(
+                                            "Rs. " +
+                                                snapshot.data[index].itemprice
+                                                    .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.normal,
+                                                fontSize: 15),
+                                          )
+                                        ],
+                                      ),
+                                      IconButton(
+                                          onPressed: () async {
+                                            int custid =
+                                                snapshot.data[index].custid;
+                                            int itemid =
+                                                snapshot.data[index].itemid;
+                                            var url = Uri.parse(
+                                                'http://192.168.0.103:4000/cart/cart/delete/$custid/$itemid');
+                                            var response =
+                                                await http.delete(url);
+                                            var result =
+                                                json.decode(response.body);
+                                            print(
+                                                "Response Status code : ${response.statusCode}");
+                                            print("Response body : " +
+                                                response.body.toString());
+                                            displaycart();
+                                          },
+                                          icon: Icon(
+                                            Icons.delete_rounded,
+                                            size: 25,
+                                          )),
+                                    ],
+                                  )),
+                            );
+                          }
+                        });
+                  }),
             ),
           ],
         ),

@@ -4,9 +4,9 @@ class Cart {
   late String itemname;
   late String itemimage;
   late int itemprice;
-  late int itemquatity;
+  late int itemquantity;
   late int totalamount;
 
   Cart(this.custid, this.itemid, this.itemname, this.itemimage, this.itemprice,
-      this.itemquatity, this.totalamount);
+      this.itemquantity, this.totalamount);
 }
