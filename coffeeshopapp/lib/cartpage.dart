@@ -3,6 +3,7 @@
 import 'dart:convert';
 
 import 'package:coffeeshopapp/cartclass.dart';
+import 'package:coffeeshopapp/checkout.dart';
 import 'package:coffeeshopapp/menupage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -134,7 +135,9 @@ class _cartpageState extends State<cartpage> {
               child: Row(
                 children: [
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
                       icon: Icon(
                         Icons.arrow_back_ios,
                         color: Colors.black,
@@ -278,7 +281,15 @@ class _cartpageState extends State<cartpage> {
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => checkout(
+                              profile: profile,
+                              totalprice: total,
+                            )));
+              },
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
