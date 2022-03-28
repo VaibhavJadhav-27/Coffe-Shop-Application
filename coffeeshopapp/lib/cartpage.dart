@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print, unused_element, avoid_unnecessary_containers
+// ignore_for_file: camel_case_types, prefer_const_constructors, prefer_const_constructors_in_immutables, unused_local_variable, avoid_print, unused_element, avoid_unnecessary_containers, non_constant_identifier_names
 
 import 'dart:convert';
 
