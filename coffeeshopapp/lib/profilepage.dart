@@ -205,14 +205,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                (MaterialPageRoute(
-                                    builder: (context) => ProfilePage(
-                                          custname: profile,
-                                        ))));
-                          },
+                          onPressed: () {},
                           icon: Icon(Icons.person),
                           iconSize: 30,
                         ),

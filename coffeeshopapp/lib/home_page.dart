@@ -79,7 +79,7 @@ class _HomepageState extends State<Homepage> {
                     "lazy beans",
                     style: TextStyle(
                         fontFamily: "Pacifico",
-                        fontSize: 25,
+                        fontSize: 30,
                         fontWeight: FontWeight.normal,
                         color: Color.fromRGBO(21, 102, 59, 1)),
                   )),
@@ -149,6 +149,7 @@ class _HomepageState extends State<Homepage> {
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.white),
                                     onPressed: () {
+                                      int iid = snapshot.data[index].itemid;
                                       String iname =
                                           snapshot.data[index].itemname;
                                       String iimage =
@@ -163,6 +164,8 @@ class _HomepageState extends State<Homepage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => detailpage(
+                                                    profile: profile,
+                                                    itemid: iid,
                                                     itemname: iname,
                                                     itemdesc: idesc,
                                                     itemimage: iimage,

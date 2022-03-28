@@ -2,14 +2,20 @@
 
 import 'package:coffeeshopapp/menuclass.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class detailpage extends StatefulWidget {
+  final String profile;
+  final int itemid;
   final String itemname;
   final String itemdesc;
   final String itemimage;
   final String itemprice;
   detailpage(
       {Key? key,
+      required this.profile,
+      required this.itemid,
       required this.itemname,
       required this.itemdesc,
       required this.itemimage,
@@ -21,6 +27,39 @@ class detailpage extends StatefulWidget {
 }
 
 class _detailpageState extends State<detailpage> {
+  TextEditingController _controller = TextEditingController();
+  late int totalprice;
+  String quantity1 = "1";
+
+  createAlertDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.all(10),
+            backgroundColor: Color.fromRGBO(21, 102, 59, 1),
+            elevation: 20,
+            title: Text(
+              "Added to cart",
+              style: TextStyle(
+                  fontFamily: "Comfortaa", fontSize: 25, color: Colors.white),
+              textAlign: TextAlign.center,
+            ),
+            content: Image.asset("assets/images/Vector.png"),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "Back",
+                    style: TextStyle(color: Colors.white, fontSize: 15),
+                  ))
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     String itemname = widget.itemname;
@@ -28,27 +67,124 @@ class _detailpageState extends State<detailpage> {
     var lengthit = 1;
     int quantity = 1;
 
+    String custname = widget.profile;
+    int itemid = widget.itemid;
     String itemdesc = widget.itemdesc;
     String itemprice = widget.itemprice;
     String itemimage = widget.itemimage;
-    int totalprice = int.parse(itemprice);
-    String tot = "";
+    totalprice = int.parse(itemprice);
 
     void updatequantity() {
-      quantity;
-      totalprice = int.parse(itemprice) * quantity;
-      tot = "Rs. " + totalprice.toString();
+      setState(() {
+        if (int.parse(quantity1) < 1) {
+          quantity1 = "1";
+        } else {
+          quantity1;
+        }
+        print("valur of quantity in updatequantity inset state : " + quantity1);
+        totalprice = int.parse(itemprice) * int.parse(quantity1);
+        print(totalprice.toString());
+      });
+      print("valur of quantity outside set state : " + quantity1);
+      print("total out of set state :" + totalprice.toString());
     }
 
     @override
     void initState() {
       super.initState();
-      updatequantity();
     }
 
     @override
     void dispose() {
       this.dispose();
+    }
+
+    void updatecartitems() async {
+      //For getting customer id from customer name
+      var url1 =
+          Uri.parse('http://192.168.0.103:4000/customer/customer/$custname');
+      Map<String, String> requestHeaders1 = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var response = await http.get(url1, headers: requestHeaders1);
+      var custjson = json.decode(response.body);
+      print(custjson);
+      int custid = custjson[0]["custid"];
+      print(custid);
+
+// checking if the item is present in the cart of that particular customer
+      var url2 =
+          Uri.parse('http://192.168.0.103:4000/cart/cart/$custid/$itemid');
+      Map<String, String> requestHeaders2 = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var response2 = await http.get(url2, headers: requestHeaders2);
+      var itemjson = json.decode(response2.body);
+      print(itemjson);
+      try {
+        //if data is present, update the quantity
+        int iid = itemjson[0]["itemid"];
+        int iprice = itemjson[0]["itemprice"];
+        int res = iprice * int.parse(quantity1);
+        print("data available");
+        var url = Uri.parse('http://192.168.0.103:4000/cart/cart');
+        Map<String, String> requestHeaders = {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        };
+        print(totalprice);
+        print(quantity1);
+        var body = jsonEncode({
+          'custid': custid,
+          'itemid': itemid,
+          'itemprice': int.parse(itemprice),
+          'itemquantity': int.parse(quantity1),
+          'totalamount': res,
+        });
+        var response1 =
+            await http.put(url, headers: requestHeaders, body: body);
+        if (response1.statusCode == 200) {
+          print("Response Status : ${response1.statusCode}");
+          print("Response body : " + response1.body.toString());
+        }
+      } on RangeError {
+        //if data is not present, insert all the details
+        var url4 = Uri.parse('http://192.168.0.103:4000/menu/menu/$itemname');
+        Map<String, String> requestHeaders2 = {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        };
+        var response2 = await http.get(url4, headers: requestHeaders2);
+        var item1json = json.decode(response2.body);
+        print(item1json);
+        int iprice = item1json[0]["itemprice"];
+        int res = iprice * int.parse(quantity1);
+        print("Not available");
+        var url = Uri.parse('http://192.168.0.103:4000/cart/cart');
+        Map<String, String> requestHeaders = {
+          'Content-type': 'application/json',
+          'Accept': 'application/json',
+        };
+        var body = jsonEncode({
+          'custid': custid,
+          'itemid': itemid,
+          'itemname': itemname,
+          'itemimage': itemimage,
+          'itemprice': int.parse(itemprice),
+          'itemquantity': int.parse(quantity1),
+          'totalamount': res
+        });
+        var response1 =
+            await http.post(url, headers: requestHeaders, body: body);
+        if (response1.statusCode == 200) {
+          print("Response Status : ${response1.statusCode}");
+          print("Response body : " + response1.body.toString());
+        }
+      } catch (e) {
+        print("Not available");
+      }
     }
 
     return Scaffold(
@@ -67,6 +203,22 @@ class _detailpageState extends State<detailpage> {
                 scale: 0.3,
                 fit: BoxFit.cover,
               ),
+              Positioned(
+                  top: 10,
+                  left: 10,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.black,
+                      ),
+                      color: Colors.white,
+                    ),
+                  )),
               Positioned(
                 child: Image.asset("assets/images/rectangle.png"),
                 bottom: -10.0,
@@ -115,16 +267,31 @@ class _detailpageState extends State<detailpage> {
                       fontSize: 19),
                 ),
                 Spacer(),
-                IconButton(
+                SizedBox(
+                  width: 100,
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 30),
+                    child: TextField(
+                      controller: _controller,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                      onChanged: (value) {
+                        setState(() {
+                          quantity1 = value;
+                          print(
+                              "Valur of quantity when pressed : " + quantity1);
+                          updatequantity();
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                /*IconButton(
                     onPressed: () {
-                      if (quantity < 2) {
-                        quantity = 1;
-                      } else {
-                        quantity = quantity - 1;
-                      }
-                      totalprice = int.parse(itemprice) * quantity;
-                      print(totalprice);
-                      updatequantity();
+                      decrementquantity();
                     },
                     icon: Icon(
                       Icons.remove,
@@ -133,20 +300,10 @@ class _detailpageState extends State<detailpage> {
                     )),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 5),
-                  child: Text(quantity.toString()),
+                  child: Text("$quantity"),
                 ),
                 IconButton(
-                    onPressed: () {
-                      if (quantity > 20) {
-                        quantity = 20;
-                      } else {
-                        quantity = quantity + 1;
-                      }
-
-                      totalprice = int.parse(itemprice) * quantity;
-                      print(totalprice);
-                      updatequantity();
-                    },
+                    onPressed: incrementq,
                     icon: Icon(
                       Icons.add,
                       color: Colors.black,
@@ -154,31 +311,27 @@ class _detailpageState extends State<detailpage> {
                     )),
                 SizedBox(
                   width: 15,
-                ),
+                ),*/
               ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 8, left: 13),
-            child: Text(
-              "Total",
-              style: TextStyle(
-                  color: Color.fromRGBO(21, 102, 59, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8, left: 13, right: 13),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(tot),
                 ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    "Add to Cart",
-                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  onPressed: () {
+                    //updatequantity();
+                    updatecartitems();
+                    createAlertDialog(context);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(
+                      "Add to Cart",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
                   ),
                   style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(21, 102, 59, 1)),

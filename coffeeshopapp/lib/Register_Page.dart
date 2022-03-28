@@ -21,7 +21,7 @@ class register_page extends StatelessWidget {
   String cpass = "";
 
   void createUserRequest() async {
-    var url = Uri.parse('http://127.0.0.1:4000/customer/customer');
+    var url = Uri.parse('http://192.168.0.103:4000/customer/customer');
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -37,6 +37,20 @@ class register_page extends StatelessWidget {
     if (response.statusCode == 200) {
       print("Response Status : ${response.statusCode}");
       print("Response body : " + response.body.toString());
+
+      var url1 = Uri.parse('http://192.168.0.103:4000/login/login');
+      Map<String, String> requestHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var body1 = jsonEncode(
+          {'custemail': email, 'custpassword': pass, 'status': 'customer'});
+      var response1 =
+          await http.post(url1, headers: requestHeaders, body: body1);
+      if (response1.statusCode == 200) {
+        print("Response status = ${response1.statusCode}");
+        print("Response body : " + response1.body.toString());
+      }
     } else {
       print("Duplicate Entries ..!!");
     }

@@ -22,6 +22,22 @@ router5.get('/:cart/:custid', async(req, res) => {
     });
 });
 
+router5.get('/:cart/:custid/:itemid', async(req, res) => {
+    var itemid = req.params.itemid;
+    var custid = req.params.custid;
+    console.log(itemid);
+    mysqlConnection.query('select * from cart where itemid=? and custid=? ;', [itemid,custid], (error, rows, fields) => {
+        if (!error) {
+            
+            res.json(rows);
+            console.log(rows);
+
+        } else {
+            console.log(error);
+        }
+    });
+});
+
 
 router5.post('/:cart', (req, res) => {
     var custid = req.body.custid;
@@ -51,30 +67,28 @@ router5.post('/:cart', (req, res) => {
     });
 
 });
-/*
-router5.put('/:menu', (req, res) => {
+
+router5.put('/:cart', (req, res) => {
     var custid = req.body.custid;
     var itemid = req.body.itemid;
-    var itemname = req.body.itemname;
     var itemprice = req.body.itemprice;
     var itemquantity = req.body.itemquantity;
     var totalamount = req.body.totalamount;
     console.log(custid);
     console.log(itemid);
-    console.log(itemname);
     console.log(itemprice);
     console.log(itemquantity);
     console.log(totalamount);
-    mysqlConnection.query('update cart set itemid=itemname=?, itemdesc =?, itemprice = ? where itemid = ?', [itemname, itemdesc, itemprice, itemid], (error, rows, fields) => {
+    mysqlConnection.query('update cart set itemprice = ?, itemquantity=?, totalamount=? where itemid = ? and custid=?', [itemprice,itemquantity,totalamount, itemid,custid], (error, rows, fields) => {
         if (!error) {
-            res.json({ Status: 'Menu data updated ..!!' });
+            res.json({ Status: 'Cart data updated ..!!' });
 
         } else {
             console.log(error);
         }
     });
 });
-*/
+
 
 router5.delete('/cart', (req, res) => {
     var itemname = req.body.itemname;

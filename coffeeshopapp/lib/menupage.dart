@@ -94,15 +94,15 @@ class _MenuPageState extends State<MenuPage> {
               children: <Widget>[
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
                   child: Center(
                       child: Text(
                     "Menu",
                     style: TextStyle(
-                      //fontFamily: "Pacifico",
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontFamily: "Comfortaa",
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(21, 102, 59, 1)),
                   )),
                 ),
                 SizedBox(
@@ -305,6 +305,7 @@ class _MenuPageState extends State<MenuPage> {
                                     style: ElevatedButton.styleFrom(
                                         primary: Colors.white),
                                     onPressed: () {
+                                      int iid = snapshot.data[index].itemid;
                                       String iname =
                                           snapshot.data[index].itemname;
                                       String iimage =
@@ -319,6 +320,8 @@ class _MenuPageState extends State<MenuPage> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => detailpage(
+                                                    profile: profile,
+                                                    itemid: iid,
                                                     itemname: iname,
                                                     itemdesc: idesc,
                                                     itemimage: iimage,
