@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:coffeeshopapp/home_page.dart';
 import 'package:coffeeshopapp/menupage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -133,6 +134,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         IconButton(
                           onPressed: () {
                             Navigator.pop(context);
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Homepage(profile: profile)));
                           },
                           icon: Icon(
                             Icons.home,

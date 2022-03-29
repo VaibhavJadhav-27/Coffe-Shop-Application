@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:coffeeshopapp/orderconfirm.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -26,6 +27,7 @@ class _checkoutState extends State<checkout> {
   String add1 = "";
   String pin = "";
   String phone = "";
+  late int oid;
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +93,7 @@ class _checkoutState extends State<checkout> {
       var response3 = await http.get(url3);
       var orderjson = json.decode(response3.body);
       var orderid = orderjson[0]["orderid"];
+      oid = orderid;
       print(orderjson);
       print(orderid);
 
@@ -348,6 +351,11 @@ class _checkoutState extends State<checkout> {
                     createAlertDialog(context);
                   } else {
                     getcartitems();
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                OrderConfirm(orderid: oid, profile: custname)));
                   }
                 },
                 child: Padding(
