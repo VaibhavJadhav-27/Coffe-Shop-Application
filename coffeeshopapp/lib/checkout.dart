@@ -115,6 +115,33 @@ class _checkoutState extends State<checkout> {
       }
     }
 
+    createAlertDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.all(10),
+              backgroundColor: Color.fromRGBO(21, 102, 59, 1),
+              elevation: 20,
+              title: Text(
+                "Fill all the address details...!!",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Back",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ))
+              ],
+            );
+          });
+    }
+
     return SafeArea(
         // ignore: prefer_const_constructors
         child: Scaffold(
@@ -318,7 +345,11 @@ class _checkoutState extends State<checkout> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  getcartitems();
+                  if (add1 == "" || pin == "" || phone == "") {
+                    createAlertDialog(context);
+                  } else {
+                    getcartitems();
+                  }
                 },
                 child: Padding(
                   padding:
