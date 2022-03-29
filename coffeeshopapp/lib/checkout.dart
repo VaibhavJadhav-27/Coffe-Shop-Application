@@ -23,12 +23,15 @@ class _checkoutState extends State<checkout> {
   late TextEditingController _phoneno = TextEditingController();
 
   late int custid;
+  String add1 = "";
+  String pin = "";
+  String phone = "";
 
   @override
   Widget build(BuildContext context) {
     String custname = widget.profile;
     int total = widget.totalprice;
-    int pricewithcharges = total  + 50;
+    int pricewithcharges = total + 50;
     // ignore: prefer_const_constructors
     void getcartitems() async {
       //for getting customer id from customer name
@@ -46,11 +49,13 @@ class _checkoutState extends State<checkout> {
       print(cartjson);
       List<Cart> cartitems = [];
       var items = "";
-      var listitems = [];
+      var listitems = "";
       for (var u in cartjson) {
-        items =
-            "Item Name : " + u["itemname"]; ", Quantity: " + u["itemquantity"].toString();
-        listitems.add(items);
+        items = " Item Name : " +
+            u["itemname"] +
+            "  Quantity: " +
+            u["itemquantity"].toString();
+        listitems = listitems + items;
       }
       print(listitems);
 
@@ -59,21 +64,54 @@ class _checkoutState extends State<checkout> {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       };
-      var ordertime = DateTime.now();
+      var now1 = DateTime.now();
+      var ordertime =
+          "${now1.year}-${now1.month}-${now1.day} ${now1.hour}:${now1.minute}:${now1.second}";
+      var ordertime1 = ordertime;
+      print(ordertime);
+      print(ordertime1);
       var body = jsonEncode({
         'custid': custid,
-        'items' : listitems,
-        'totalamount' : total,
+        'items': listitems,
+        'totalamount': total,
         'payment_type': 'cod',
-        'ordertime' : ordertime,
+        'ordertime': ordertime,
         'delivery_type': 'cod',
-        'isreceived' : 'false'
+        'isreceived': 'false'
       });
-      var response2 = await http.post(url2,headers: requestHeaders,body : body);
-      
+      var response2 =
+          await http.post(url2, headers: requestHeaders, body: body);
+
       if (response2.statusCode == 200) {
         print("Response status = ${response1.statusCode}");
         print("Response body : " + response2.body.toString());
+      }
+      // to find orderid
+      var url3 = Uri.parse(
+          'http://192.168.0.103:4000/orderdb/order/orderid/$custid/$ordertime');
+      var response3 = await http.get(url3);
+      var orderjson = json.decode(response3.body);
+      var orderid = orderjson[0]["orderid"];
+      print(orderjson);
+      print(orderid);
+
+      //to enter recorde in delivery table;
+      String combined_address =
+          add1 + ", Mumbai : " + pin + ", Contact number : " + phone;
+      var url4 = Uri.parse('http://192.168.0.103:4000/delivery/delivery');
+      var body4 = jsonEncode({
+        'custid': custid,
+        'orderid': orderid,
+        'address': combined_address,
+        'items': listitems,
+        'totalamount': pricewithcharges,
+        'isreceived': 'false'
+      });
+      var response4 =
+          await http.post(url4, headers: requestHeaders, body: body4);
+      if (response4.statusCode == 200) {
+        print("Response Status : ${response4.statusCode}");
+        print("Response Body : " + response4.body);
       }
     }
 
@@ -129,6 +167,12 @@ class _checkoutState extends State<checkout> {
                     border: OutlineInputBorder(),
                     hintText: "Enter Address",
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      add1 = value;
+                      print(add1);
+                    });
+                  },
                 ),
                 height: 100,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -151,6 +195,12 @@ class _checkoutState extends State<checkout> {
                     border: OutlineInputBorder(),
                     hintText: "Enter Pin code",
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      pin = value;
+                      print(pin);
+                    });
+                  },
                 ),
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -172,6 +222,12 @@ class _checkoutState extends State<checkout> {
                     border: OutlineInputBorder(),
                     hintText: "Enter Phone Number",
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      phone = value;
+                      print(phone);
+                    });
+                  },
                 ),
                 height: 50,
                 width: MediaQuery.of(context).size.width * 0.8,
@@ -217,8 +273,10 @@ class _checkoutState extends State<checkout> {
                     "Sub Total :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text("${total}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                  Text(
+                    total.toString(),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )
                 ],
               ),
             ),
@@ -231,8 +289,10 @@ class _checkoutState extends State<checkout> {
                     "Delivery Charges :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text("50",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                  Text(
+                    "50",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )
                 ],
               ),
             ),
@@ -245,8 +305,10 @@ class _checkoutState extends State<checkout> {
                     " Total :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text("${pricewithcharges}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),)
+                  Text(
+                    "${pricewithcharges}",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  )
                 ],
               ),
             ),

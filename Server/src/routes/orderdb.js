@@ -34,13 +34,28 @@ router4.get('/:order/:orderid', async(req, res) => {
 router4.get('/:order/orderid/:custid', async(req, res) => {
     var custid = req.params.custid;
     console.log(custid);
-    mysqlConnection.query('select * from order where custid=? ;', [custid], (error, rows, fields) => {
+    mysqlConnection.query('select * from orderdb where custid=? ;', [custid], (error, rows, fields) => {
         if (!error) {
             res.json(rows);
             console.log(rows);
 
         } else {
             console.log(error);
+        }
+    });
+});
+
+router4.get('/order/orderid/:custid/:datetime',async(req,res) => {
+    var custid = req.params.custid;
+    var datetime = req.params.datetime;
+    mysqlConnection.query('select * from orderdb where custid =? and ordertime = ?',[custid,datetime],(error,rows,fields) => {
+        if(!error){
+            res.json(rows);
+            console.log(rows);
+        }
+        else{
+            res.send(error);
+            console.log(rows);
         }
     });
 });
@@ -71,7 +86,7 @@ router4.post('/:order', (req, res) => {
         } else {
             console.log(res.statusCode);
             console.log(error);
-            res.send("Duplicate entries..!!!");
+            res.send(error);
         }
     });
 
