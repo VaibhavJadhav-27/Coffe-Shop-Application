@@ -1,4 +1,4 @@
-// ignore_for_file: camel_case_types, prefer_const_constructors, duplicate_ignore, prefer_const_constructors_in_immutables, prefer_final_fields, prefer_const_literals_to_create_immutables
+// ignore_for_file: camel_case_types, prefer_const_constructors, duplicate_ignore, prefer_const_constructors_in_immutables, prefer_final_fields, prefer_const_literals_to_create_immutables, avoid_print, unused_import, non_constant_identifier_names, unnecessary_brace_in_string_interps
 
 import 'dart:convert';
 
@@ -47,7 +47,6 @@ class _checkoutState extends State<checkout> {
       var response1 = await http.get(url1);
       var cartjson = json.decode(response1.body);
       print(cartjson);
-      List<Cart> cartitems = [];
       var items = "";
       var listitems = "";
       for (var u in cartjson) {
