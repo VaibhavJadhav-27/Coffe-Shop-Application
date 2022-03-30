@@ -131,7 +131,7 @@ class _cartpageState extends State<cartpage> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 25),
               child: Row(
                 children: [
                   IconButton(

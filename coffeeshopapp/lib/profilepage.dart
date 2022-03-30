@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:coffeeshopapp/cartpage.dart';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:coffeeshopapp/menupage.dart';
 import 'package:flutter/material.dart';
@@ -142,7 +143,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           },
                           icon: Icon(
                             Icons.home,
-                            color: Color.fromRGBO(21, 102, 59, 1),
+                            color: Colors.black,
                           ),
                           iconSize: 30,
                         ),
@@ -183,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             icon: Image.asset(
                               "assets/images/document.png",
                               height: 24,
-                              color: Color.fromRGBO(21, 102, 59, 1),
+                              color: Colors.black,
                             )),
                         Text(
                           "Orders",
@@ -196,7 +197,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        cartpage(profile: profile)));
+                          },
                           icon: Icon(Icons.shopping_cart_outlined),
                           iconSize: 30,
                         ),
@@ -212,7 +219,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: Icon(Icons.person),
+                          icon: Icon(
+                            Icons.person,
+                            color: Color.fromRGBO(21, 102, 59, 1),
+                          ),
                           iconSize: 30,
                         ),
                         Text(

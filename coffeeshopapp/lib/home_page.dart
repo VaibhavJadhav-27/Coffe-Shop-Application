@@ -270,7 +270,7 @@ class _HomepageState extends State<Homepage> {
                                 icon: Image.asset(
                                   "assets/images/document.png",
                                   height: 24,
-                                  color: Color.fromRGBO(21, 102, 59, 1),
+                                  color: Colors.black,
                                 )),
                             Text(
                               "Orders",

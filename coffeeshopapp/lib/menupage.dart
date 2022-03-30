@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:async';
+import 'package:coffeeshopapp/cartpage.dart';
 import 'package:coffeeshopapp/detailpage.dart';
 import 'package:coffeeshopapp/display%20products.dart';
 import 'package:coffeeshopapp/menuclass.dart';
@@ -394,7 +395,7 @@ class _MenuPageState extends State<MenuPage> {
                               },
                               icon: Icon(
                                 Icons.home,
-                                color: Color.fromRGBO(21, 102, 59, 1),
+                                color: Colors.black,
                               ),
                               iconSize: 30,
                             ),
@@ -413,6 +414,7 @@ class _MenuPageState extends State<MenuPage> {
                                 icon: Image.asset(
                                   "assets/images/cup.png",
                                   height: 24,
+                                  color: Color.fromRGBO(21, 102, 59, 1),
                                 )),
                             Text(
                               "Menu",
@@ -426,11 +428,8 @@ class _MenuPageState extends State<MenuPage> {
                           children: [
                             IconButton(
                                 onPressed: () {},
-                                icon: Image.asset(
-                                  "assets/images/document.png",
-                                  height: 24,
-                                  color: Color.fromRGBO(21, 102, 59, 1),
-                                )),
+                                icon: Image.asset("assets/images/document.png",
+                                    height: 24, color: Colors.black)),
                             Text(
                               "Orders",
                               style: TextStyle(fontWeight: FontWeight.bold),
@@ -442,7 +441,13 @@ class _MenuPageState extends State<MenuPage> {
                         child: Column(
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            cartpage(profile: profile)));
+                              },
                               icon: Icon(Icons.shopping_cart_outlined),
                               iconSize: 30,
                             ),
