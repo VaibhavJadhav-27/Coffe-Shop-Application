@@ -1,13 +1,13 @@
 var Router = require('express');
-const router3 = Router();
+const router5 = Router();
 
 const mysqlConnection = require('../database/database');
 
-router3.get('/', async(req, res) => {
+router5.get('/', async(req, res) => {
     res.status(200).json('Server is on and database is connected..!!!');
 });
 
-router3.get('/:delivery', async(req, res) => {
+router5.get('/:delivery', async(req, res) => {
     mysqlConnection.query('select * from delivery;', (error, rows, fields) => {
         if (!error) {
             res.json(rows);
@@ -17,7 +17,7 @@ router3.get('/:delivery', async(req, res) => {
     });
 });
 
-router3.get('/:delivery/:deliveryid', async(req, res) => {
+router5.get('/:delivery/:deliveryid', async(req, res) => {
     var deliveryid = req.params.deliveryid;
     console.log(deliveryid);
     mysqlConnection.query('select * from delivery where deliveryid=? ;', [deliveryid], (error, rows, fields) => {
@@ -31,7 +31,7 @@ router3.get('/:delivery/:deliveryid', async(req, res) => {
     });
 });
 
-router3.get('/:delivery/deliveryid/:isreceived', async(req, res) => {
+router5.get('/delivery/deliveryid/:isreceived', async(req, res) => {
     var status = req.params.isreceived;
     console.log(status);
     mysqlConnection.query('select * from delivery where isreceived=? ;', [status], (error, rows, fields) => {
@@ -45,8 +45,23 @@ router3.get('/:delivery/deliveryid/:isreceived', async(req, res) => {
     });
 });
 
+router5.get('/delivery/deliveryid/:custid/:isreceived', async(req, res) => {
+    var status = req.params.isreceived;
+    var custid = req.params.custid;
+    console.log(status);
+    mysqlConnection.query('select * from delivery where isreceived=? and custid=?;', [status,custid], (error, rows, fields) => {
+        if (!error) {
+            res.json(rows);
+            console.log(rows);
 
-router3.post('/:delivery', (req, res) => {
+        } else {
+            console.log(error);
+        }
+    });
+});
+
+
+router5.post('/:delivery', (req, res) => {
     var deliveryid = req.body.deliveryid;
     var custid = req.body.custid;
     var orderid = req.body.orderid;
@@ -75,7 +90,7 @@ router3.post('/:delivery', (req, res) => {
 
 });
 
-router3.put('/:menu/:deliveryid/:isreceived', (req, res) => {
+router5.put('/delivery/:deliveryid/:isreceived', (req, res) => {
     var deliveryid = req.body.deliveryid;
     var status = req.body.isreceived;
     console.log(deliveryid);
@@ -91,7 +106,7 @@ router3.put('/:menu/:deliveryid/:isreceived', (req, res) => {
 });
 
 
-router3.delete('/menu', (req, res) => {
+router5.delete('/delivery', (req, res) => {
     var itemname = req.body.itemname;
     console.log(custid);
     mysqlConnection.query('delete from menu where itemname =?', [itemname], (error, rows, fields) => {
@@ -103,4 +118,4 @@ router3.delete('/menu', (req, res) => {
     });
 });
 
-module.exports = router3;
+module.exports = router5;

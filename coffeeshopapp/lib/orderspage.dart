@@ -20,22 +20,31 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     String profile = widget.profile;
 
-    Future<List<Order>> viewcustomerorder() async {
-      var url =
+    Future<List<Delivery>> viewcustomerorder() async {
+      var url1 =
           Uri.parse('http://192.168.0.103:4000/customer/customer/$profile');
       Map<String, String> requestHeaders1 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       };
-      var response1 = await http.get(url, headers: requestHeaders1);
+      var response1 = await http.get(url1, headers: requestHeaders1);
       var custjson = json.decode(response1.body);
       print(custjson);
       int custid = custjson[0]["custid"];
 
       //fetching active orders using customer id and isreceived as false
-      var url1 = Uri.parse(
+      var url2 = Uri.parse(
           'http:192.168.0.103:4000/delivery/delivery/deliveryid/$custid/false');
-          var
+      var response2 = await http.get(url2, headers: requestHeaders1);
+      var deliveryjson = json.decode(response2.body);
+      List<Delivery> deliveryitems = [];
+      for (var u in deliveryjson) {
+        Delivery delivery = Delivery(u["deliveryid"], u["custid"], u["orderid"],
+            u["address"], u["items"], u["totalamount"], u["isreceived"]);
+        deliveryitems.add(delivery);
+      }
+      print(deliveryitems.length);
+      return deliveryitems;
     }
 
     return SafeArea(
