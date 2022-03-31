@@ -2,6 +2,7 @@
 
 import 'package:coffeeshopapp/Login_Page.dart';
 import 'package:coffeeshopapp/Register_Page.dart';
+import 'package:coffeeshopapp/admindashboard.dart';
 import 'package:coffeeshopapp/deliverypersonpage.dart';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:coffeeshopapp/orderconfirm.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: Login_Page()),
+      home: Scaffold(body: AdminDashboard(profile: "Vaibhav Jadhav")),
       debugShowCheckedModeBanner: false,
     );
   }
