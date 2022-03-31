@@ -6,6 +6,7 @@ import 'package:coffeeshopapp/cartpage.dart';
 import 'package:coffeeshopapp/detailpage.dart';
 import 'package:coffeeshopapp/display%20products.dart';
 import 'package:coffeeshopapp/menuclass.dart';
+import 'package:coffeeshopapp/orderspage.dart';
 import 'package:coffeeshopapp/profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -427,7 +428,13 @@ class _MenuPageState extends State<MenuPage> {
                         child: Column(
                           children: [
                             IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OrderPage(profile: profile)));
+                                },
                                 icon: Image.asset("assets/images/document.png",
                                     height: 24, color: Colors.black)),
                             Text(

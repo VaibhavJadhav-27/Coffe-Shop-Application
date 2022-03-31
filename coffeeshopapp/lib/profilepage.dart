@@ -8,6 +8,8 @@ import 'package:coffeeshopapp/menupage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'orderspage.dart';
+
 class ProfilePage extends StatefulWidget {
   String custname;
   ProfilePage({Key? key, required this.custname}) : super(key: key);
@@ -180,7 +182,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Column(
                       children: [
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          OrderPage(profile: profile)));
+                            },
                             icon: Image.asset(
                               "assets/images/document.png",
                               height: 24,
