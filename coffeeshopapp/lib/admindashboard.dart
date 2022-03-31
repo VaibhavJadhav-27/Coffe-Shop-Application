@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors_in_immutables, unused_local_variable, prefer_const_constructors
 
+import 'package:coffeeshopapp/employeepage.dart';
 import 'package:flutter/material.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -59,7 +60,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 height: 10,
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EmployeePage()));
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Color.fromRGBO(101, 30, 62, 1),
                   ),
