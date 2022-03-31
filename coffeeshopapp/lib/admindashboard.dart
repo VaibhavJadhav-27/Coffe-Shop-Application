@@ -1,7 +1,9 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, unused_local_variable, prefer_const_constructors
+// ignore_for_file: prefer_const_constructors_in_immutables, unused_local_variable, prefer_const_constructors, unused_import
 
+import 'package:coffeeshopapp/deliveryadmin.dart';
 import 'package:coffeeshopapp/employeepage.dart';
 import 'package:coffeeshopapp/menuadmin.dart';
+import 'package:coffeeshopapp/orderclass.dart';
 import 'package:flutter/material.dart';
 
 class AdminDashboard extends StatefulWidget {
@@ -135,30 +137,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => EmployeePage()));
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Color.fromRGBO(21, 102, 59, 1),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 15, horizontal: 30),
-                        child: Text(
-                          "Orders",
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                      )),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => EmployeePage()));
+                                builder: (context) => DeliveryAdmin()));
                       },
                       style: ElevatedButton.styleFrom(
                           primary: Color.fromRGBO(21, 102, 59, 1),
@@ -172,6 +151,30 @@ class _AdminDashboardState extends State<AdminDashboard> {
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
                       )),
+                  SizedBox(
+                    width: 30,
+                  ),
+                  /*ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfileAdmin(profile: profile)));
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Color.fromRGBO(21, 102, 59, 1),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30.0))),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 15, horizontal: 30),
+                        child: Text(
+                          "Profile",
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      )),*/
                 ],
               )
             ],

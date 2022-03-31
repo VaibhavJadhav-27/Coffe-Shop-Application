@@ -83,37 +83,34 @@ class _MenuAdminState extends State<MenuAdmin> {
               SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 450,
-                child: DataTable(
-                    columns: [
-                      DataColumn(label: Text("Image")),
-                      DataColumn(label: Text("Item name")),
-                      DataColumn(label: Text("Category")),
-                      DataColumn(label: Text("Price")),
-                    ],
-                    rows: menurecords
-                        .map<DataRow>((e) => DataRow(cells: [
-                              DataCell(SizedBox(
-                                  child: Image.asset(
-                                    e.itemimage,
-                                    scale: 0.2,
-                                  ),
-                                  height: 100,
-                                  width: 80)),
-                              DataCell(
-                                Text(e.itemname.toString()),
-                                onTap: () {
-                                  setState(() {
-                                    name = e.itemname.toString();
-                                  });
-                                },
-                              ),
-                              DataCell(Text(e.itemcategory.toString())),
-                              DataCell(Text(e.itemprice.toString())),
-                            ]))
-                        .toList()),
-              ),
+              DataTable(
+                  columns: [
+                    DataColumn(label: Text("Image")),
+                    DataColumn(label: Text("Item name")),
+                    DataColumn(label: Text("Category")),
+                    DataColumn(label: Text("Price")),
+                  ],
+                  rows: menurecords
+                      .map<DataRow>((e) => DataRow(cells: [
+                            DataCell(SizedBox(
+                                child: Image.asset(
+                                  e.itemimage,
+                                  scale: 0.2,
+                                ),
+                                height: 100,
+                                width: 80)),
+                            DataCell(
+                              Text(e.itemname.toString()),
+                              onTap: () {
+                                setState(() {
+                                  name = e.itemname.toString();
+                                });
+                              },
+                            ),
+                            DataCell(Text(e.itemcategory.toString())),
+                            DataCell(Text(e.itemprice.toString())),
+                          ]))
+                      .toList()),
               Divider(
                 thickness: 2,
                 color: Colors.black,

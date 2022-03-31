@@ -60,7 +60,9 @@ class _Login_PageState extends State<Login_Page> {
       var status = responsejson[0]["status"];
       print(status);
       if (response1.body == "NO entries") {
-        createAlertDialog(context);
+        setState(() {
+          createAlertDialog(context);
+        });
       } else {
         if (status == "admin") {
           var url2 = Uri.parse(

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, prefer_final_fields, avoid_print, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_constructors_in_immutables, prefer_const_constructors, unused_local_variable, prefer_const_literals_to_create_immutables, prefer_final_fields, avoid_print, prefer_typing_uninitialized_variables, unused_element
 
 import 'dart:convert';
 
@@ -45,6 +45,7 @@ class _DPpageState extends State<DPpage> {
       return deliveryitems;
     }
 
+    @override
     void initState() {
       super.initState();
       viewdeliveryorder();
@@ -349,7 +350,7 @@ class _DPpageState extends State<DPpage> {
                       } else {
                         if (lengthdl != 0 && status == "Departed") {
                           confirmorderid = orderid;
-                          status = "Delivered";
+                          status = "true";
                           var url = Uri.parse(
                               'http://192.168.0.103:4000/delivery/delivery/customer/$confirmorderid/$status');
                           Map<String, String> requestHeaders1 = {

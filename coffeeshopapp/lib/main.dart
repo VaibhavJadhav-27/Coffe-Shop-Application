@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: AdminDashboard(profile: "Vaibhav Jadhav")),
+      home: Scaffold(body: Login_Page()),
       debugShowCheckedModeBanner: false,
     );
   }

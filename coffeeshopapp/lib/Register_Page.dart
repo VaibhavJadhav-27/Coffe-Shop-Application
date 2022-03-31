@@ -5,20 +5,35 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-class register_page extends StatelessWidget {
+class register_page extends StatefulWidget {
   register_page({Key? key}) : super(key: key);
 
+  @override
+  State<register_page> createState() => _register_pageState();
+}
+
+class _register_pageState extends State<register_page> {
   late TextEditingController _name = TextEditingController();
+
   late TextEditingController _email = TextEditingController();
+
   late TextEditingController _phone = TextEditingController();
+
   late TextEditingController _pass = TextEditingController();
+
   late TextEditingController _cpass = TextEditingController();
 
   String email = "";
+
   String name = "";
+
   String phoneno = "";
+
   String pass = "";
+
   String cpass = "";
+
+  String notify = "";
 
   @override
   Widget build(BuildContext context) {
@@ -215,6 +230,9 @@ class register_page extends StatelessWidget {
                           name == "" ||
                           phoneno == "") {
                         print("Fill all the fields...!!");
+                        setState(() {
+                          notify = "Fill all the fields";
+                        });
                         createAlertDialog(BuildContext context) {
                           return showDialog(
                               context: context,
@@ -245,9 +263,11 @@ class register_page extends StatelessWidget {
                                 );
                               });
                         }
-                      }
-                      if (pass != cpass) {
+                      } else if (pass != cpass) {
                         print("password should be same..!!");
+                        setState(() {
+                          notify = "Password should be same";
+                        });
                         createAlertDialog(BuildContext context) {
                           return showDialog(
                               context: context,
@@ -278,10 +298,9 @@ class register_page extends StatelessWidget {
                                 );
                               });
                         }
+                      } else {
+                        createUserRequest();
                       }
-
-                      //print(pass);
-                      createUserRequest();
                     },
                     style: ElevatedButton.styleFrom(
                       primary: Color.fromRGBO(101, 30, 62, 1),
@@ -306,7 +325,11 @@ class register_page extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(101, 30, 62, 1)),
-                ))
+                )),
+            SizedBox(
+              height: 30,
+            ),
+            Text(notify),
           ],
         ),
       ),

@@ -4,10 +4,8 @@ import 'package:coffeeshopapp/home_page.dart';
 import 'package:flutter/material.dart';
 
 class OrderConfirm extends StatefulWidget {
-  final int orderid;
   final String profile;
-  OrderConfirm({Key? key, required this.orderid, required this.profile})
-      : super(key: key);
+  OrderConfirm({Key? key, required this.profile}) : super(key: key);
 
   @override
   State<OrderConfirm> createState() => _OrderConfirmState();
@@ -19,6 +17,7 @@ class _OrderConfirmState extends State<OrderConfirm> {
   @override
   Widget build(BuildContext context) {
     String profile = widget.profile;
+
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

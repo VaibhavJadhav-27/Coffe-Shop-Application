@@ -302,9 +302,13 @@ class _checkoutState extends State<checkout> {
                     "Sub Total :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text(
-                    total.toString(),
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      total.toString(),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   )
                 ],
               ),
@@ -318,9 +322,13 @@ class _checkoutState extends State<checkout> {
                     "Delivery Charges :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text(
-                    "50",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "50",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   )
                 ],
               ),
@@ -334,9 +342,13 @@ class _checkoutState extends State<checkout> {
                     " Total :",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                   ),
-                  Text(
-                    "${pricewithcharges}",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: Text(
+                      "${pricewithcharges}",
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
                   )
                 ],
               ),
@@ -355,7 +367,7 @@ class _checkoutState extends State<checkout> {
                         context,
                         MaterialPageRoute(
                             builder: (context) =>
-                                OrderConfirm(orderid: oid, profile: custname)));
+                                OrderConfirm(profile: custname)));
                   }
                 },
                 child: Padding(
