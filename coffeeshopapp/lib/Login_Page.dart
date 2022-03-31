@@ -21,37 +21,72 @@ class _Login_PageState extends State<Login_Page> {
   String email = "";
   String password = "";
 
-  void verify_password() async {
-    var url =
-        Uri.parse('http://192.168.0.103:4000/login/login/$email/$password');
-
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    var response = await http.get(url);
-    if (response.statusCode == 200) {
-      print(response.body.toString());
-      print("successful.!!!");
-      var jsonresponse = json.decode(response.body.toString());
-      var status = jsonresponse[0]["status"];
-      if (status == "customer") {
-        var profile = jsonresponse[0]["custemail"];
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => Homepage(
-                      profile: profile,
-                    )));
-      }
-    } else {
-      print(response.body.toString());
-      print("wrong username");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    createAlertDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.all(10),
+              backgroundColor: Color.fromRGBO(101, 30, 62, 1),
+              elevation: 20,
+              title: Text(
+                "Wrong inputs..!!",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Back",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ))
+              ],
+            );
+          });
+    }
+
+    void verify_password() async {
+      var url = Uri.parse(
+          'http://192.168.0.103:4000/customer/customer1/$email/$password');
+
+      Map<String, String> requestHeaders = {
+        'Content-type': 'application/json',
+        'Accept': 'application/json',
+      };
+      var response = await http.get(url);
+      if (response.statusCode == 200) {
+        print(response.body.toString());
+        if (response.body == "NO entries") {
+          createAlertDialog(context);
+        } else {
+          print("successful.!!!");
+          var jsonresponse = json.decode(response.body.toString());
+          var url1 = Uri.parse(
+              'http://192.168.0.103:4000/login/login/$email/$password');
+          var response1 = await http.get(url1);
+          var responsejson = json.decode(response1.body.toString());
+          var status = responsejson[0]["status"];
+          print(status);
+          if (status == "customer") {
+            var profile = jsonresponse[0]["custname"];
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Homepage(
+                          profile: profile,
+                        )));
+          }
+          if (status == "admin") {}
+          if (status == "deliveryperson") {}
+        }
+      }
+    }
+
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -105,6 +140,7 @@ class _Login_PageState extends State<Login_Page> {
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: _passwordcontroller,
+                obscureText: true,
                 decoration: InputDecoration(
                     hintText: "Password",
                     border: OutlineInputBorder(

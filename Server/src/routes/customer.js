@@ -36,9 +36,16 @@ router.get('/:customer1/:custemail/:custpassword', (req, res) => {
     console.log(password);
     mysqlConnection.query('select * from customer where custemail = ? and custpassword =? ;', [email, password], (error, rows, fields) => {
         if (!error) {
-            res.json(rows);
-            console.log(rows);
-
+            if(rows.length==0){
+                res.send("NO entries");
+                console.log("no entries");
+            }
+            else{
+                res.json(rows);
+                console.log(rows);
+    
+            }
+            
         } else {
             console.log(error);
         }

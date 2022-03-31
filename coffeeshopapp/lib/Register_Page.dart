@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_final_fields, camel_case_types, avoid_print, file_names, must_be_immutable
+// ignore_for_file: prefer_const_constructors, prefer_final_fields, camel_case_types, avoid_print, file_names, must_be_immutable, unused_element
 
 import 'dart:convert';
 
@@ -20,44 +20,74 @@ class register_page extends StatelessWidget {
   String pass = "";
   String cpass = "";
 
-  void createUserRequest() async {
-    var url = Uri.parse('http://192.168.0.103:4000/customer/customer');
-    Map<String, String> requestHeaders = {
-      'Content-type': 'application/json',
-      'Accept': 'application/json',
-    };
-    print(name);
-    var body = jsonEncode({
-      'custname': name,
-      'custemail': email,
-      'custphoneno': phoneno,
-      'custpassword': pass
-    });
-    var response = await http.post(url, headers: requestHeaders, body: body);
-    if (response.statusCode == 200) {
-      print("Response Status : ${response.statusCode}");
-      print("Response body : " + response.body.toString());
+  @override
+  Widget build(BuildContext context) {
+    createAlertDialog(BuildContext context) {
+      return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              contentPadding: EdgeInsets.all(10),
+              backgroundColor: Color.fromRGBO(101, 30, 62, 1),
+              elevation: 20,
+              title: Text(
+                "Email id or phone number already registered..!!",
+                style: TextStyle(fontSize: 25, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Back",
+                      style: TextStyle(color: Colors.white, fontSize: 15),
+                    ))
+              ],
+            );
+          });
+    }
 
-      var url1 = Uri.parse('http://192.168.0.103:4000/login/login');
+    void createUserRequest() async {
+      var url = Uri.parse('http://192.168.0.103:4000/customer/customer');
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
       };
-      var body1 = jsonEncode(
-          {'custemail': email, 'custpassword': pass, 'status': 'customer'});
-      var response1 =
-          await http.post(url1, headers: requestHeaders, body: body1);
-      if (response1.statusCode == 200) {
-        print("Response status = ${response1.statusCode}");
-        print("Response body : " + response1.body.toString());
+      print(name);
+      var body = jsonEncode({
+        'custname': name,
+        'custemail': email,
+        'custphoneno': phoneno,
+        'custpassword': pass
+      });
+      var response = await http.post(url, headers: requestHeaders, body: body);
+      if (response.statusCode == 200) {
+        print("Response Status : ${response.statusCode}");
+        print("Response body : " + response.body.toString());
+        if (response.body.toString() == "Duplicate entries..!!!") {
+          print("Email or phone no is already registered..!!!");
+          createAlertDialog(context);
+        } else {
+          var url1 = Uri.parse('http://192.168.0.103:4000/login/login');
+          Map<String, String> requestHeaders = {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          };
+          var body1 = jsonEncode(
+              {'custemail': email, 'custpassword': pass, 'status': 'customer'});
+          var response1 =
+              await http.post(url1, headers: requestHeaders, body: body1);
+          if (response1.statusCode == 200) {
+            print("Response status = ${response1.statusCode}");
+            print("Response body : " + response1.body.toString());
+            Navigator.pop(context);
+          }
+        }
       }
-    } else {
-      print("Duplicate Entries ..!!");
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
       body: SingleChildScrollView(
@@ -144,6 +174,7 @@ class register_page extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: _pass,
+                obscureText: true,
                 decoration: InputDecoration(
                     hintText: "Password",
                     border: OutlineInputBorder(
@@ -159,6 +190,7 @@ class register_page extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.8,
               child: TextField(
                 controller: _cpass,
+                obscureText: true,
                 decoration: InputDecoration(
                     hintText: "Confirm Password",
                     border: OutlineInputBorder(
@@ -183,9 +215,69 @@ class register_page extends StatelessWidget {
                           name == "" ||
                           phoneno == "") {
                         print("Fill all the fields...!!");
+                        createAlertDialog(BuildContext context) {
+                          return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.all(10),
+                                  backgroundColor:
+                                      Color.fromRGBO(101, 30, 62, 1),
+                                  elevation: 20,
+                                  title: Text(
+                                    "Fill all the fields..!!",
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "Back",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ))
+                                  ],
+                                );
+                              });
+                        }
                       }
                       if (pass != cpass) {
                         print("password should be same..!!");
+                        createAlertDialog(BuildContext context) {
+                          return showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  contentPadding: EdgeInsets.all(10),
+                                  backgroundColor:
+                                      Color.fromRGBO(101, 30, 62, 1),
+                                  elevation: 20,
+                                  title: Text(
+                                    "Password and Confirm password should be same..!!",
+                                    style: TextStyle(
+                                        fontSize: 25, color: Colors.white),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          "Back",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ))
+                                  ],
+                                );
+                              });
+                        }
                       }
 
                       //print(pass);
