@@ -2,9 +2,13 @@
 
 import 'dart:convert';
 
+import 'package:coffeeshopapp/home_page.dart';
+import 'package:coffeeshopapp/menupage.dart';
+import 'package:coffeeshopapp/profilepage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'cartpage.dart';
 import 'deliveryclass.dart';
 
 class OrderPage extends StatefulWidget {
@@ -16,7 +20,7 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-  late int lengthdl;
+  int lengthdl = 0;
   @override
   Widget build(BuildContext context) {
     String profile = widget.profile;
@@ -35,7 +39,7 @@ class _OrderPageState extends State<OrderPage> {
 
       //fetching active orders using customer id and isreceived as false
       var url2 = Uri.parse(
-          'http:192.168.0.103:4000/delivery/delivery/deliveryid/$custid/false');
+          'http://192.168.0.103:4000/delivery/delivery/deliveryid/$custid/false');
       var response2 = await http.get(url2, headers: requestHeaders1);
       var deliveryjson = json.decode(response2.body);
       List<Delivery> deliveryitems = [];
@@ -47,6 +51,11 @@ class _OrderPageState extends State<OrderPage> {
       lengthdl = deliveryitems.length;
       print(deliveryitems.length);
       return deliveryitems;
+    }
+
+    void initState() {
+      super.initState();
+      viewcustomerorder();
     }
 
     return SafeArea(
@@ -84,11 +93,23 @@ class _OrderPageState extends State<OrderPage> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Text("Active Orders"),
+                child: Text("Active Orders",
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold)),
               ),
-              Divider(),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                child: Divider(
+                  thickness: 2,
+                  color: Colors.black,
+                ),
+              ),
               SizedBox(
                 height: 200,
+                width: MediaQuery.of(context).size.width * 0.6,
                 child: FutureBuilder(
                     future: viewcustomerorder(),
                     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -107,23 +128,97 @@ class _OrderPageState extends State<OrderPage> {
                               );
                             } else {
                               return Container(
+                                width: MediaQuery.of(context).size.width * 0.6,
                                 child: Padding(
                                   padding: EdgeInsets.all(10),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        children: [
-                                          Text("#O" +
-                                              snapshot.data[index].orderid
-                                                  .toString()),
-                                          Text(snapshot.data[index].items),
-                                          Text("Total Price : " +
-                                              snapshot.data[index].totalamount
-                                                  .toString()),
-                                          Text("Type: Delivery"),
-                                          Text("Status : " +
-                                              snapshot.data[index].isreceived)
-                                        ],
+                                      Expanded(
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Order Number : ",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text("#O" +
+                                                    snapshot.data[index].orderid
+                                                        .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Ordered Items: ",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                  textAlign: TextAlign.start,
+                                                ),
+                                                Expanded(
+                                                  child: Text(
+                                                    snapshot.data[index].items,
+                                                    /*softWrap: true,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,*/
+                                                    //maxLines: 3,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Total Price : ",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text(snapshot
+                                                    .data[index].totalamount
+                                                    .toString()),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Type : ",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text("Delivery"),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                Text(
+                                                  "Status : ",
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.bold),
+                                                ),
+                                                Text((snapshot.data[index]
+                                                            .isreceived ==
+                                                        "false")
+                                                    ? "Ordered"
+                                                    : snapshot.data[index]
+                                                        .isreceived),
+                                              ],
+                                            )
+                                          ],
+                                        ),
                                       )
                                     ],
                                   ),
@@ -133,6 +228,118 @@ class _OrderPageState extends State<OrderPage> {
                           });
                     }),
               ),
+              Divider(),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Homepage(profile: profile)));
+                            },
+                            icon: Icon(
+                              Icons.home,
+                              color: Colors.black,
+                            ),
+                            iconSize: 30,
+                          ),
+                          Text(
+                            "Home",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            MenuPage(profile: profile)));
+                              },
+                              icon: Image.asset(
+                                "assets/images/cup.png",
+                                height: 24,
+                                color: Colors.black,
+                              )),
+                          Text(
+                            "Menu",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          IconButton(
+                              onPressed: () {},
+                              icon: Image.asset("assets/images/document.png",
+                                  height: 24,
+                                  color: Color.fromRGBO(21, 102, 59, 1))),
+                          Text(
+                            "Orders",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          cartpage(profile: profile)));
+                            },
+                            icon: Icon(Icons.shopping_cart_outlined),
+                            iconSize: 30,
+                          ),
+                          Text(
+                            "Cart",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      )),
+                  Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  (MaterialPageRoute(
+                                      builder: (context) => ProfilePage(
+                                            custname: profile,
+                                          ))));
+                            },
+                            icon: Icon(Icons.person),
+                            iconSize: 30,
+                          ),
+                          Text(
+                            "Profile",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ))
+                ],
+              )
             ],
           ),
         ),

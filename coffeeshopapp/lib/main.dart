@@ -3,6 +3,7 @@
 import 'package:coffeeshopapp/Login_Page.dart';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:coffeeshopapp/orderconfirm.dart';
+import 'package:coffeeshopapp/orderspage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(body: Homepage(profile: "purva")),
+      home: Scaffold(body: OrderPage(profile: "purva")),
       debugShowCheckedModeBanner: false,
     );
   }
