@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_final_fields, unused_field, prefer_const_constructors_in_immutables, avoid_print
 
 import 'dart:convert';
 
@@ -44,6 +44,7 @@ class _EmployeePageState extends State<EmployeePage> {
     return emprecords;
   }
 
+  @override
   void initState() {
     super.initState();
     fetchdetails();
@@ -59,6 +60,9 @@ class _EmployeePageState extends State<EmployeePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              SizedBox(
+                height: 50,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
@@ -89,7 +93,7 @@ class _EmployeePageState extends State<EmployeePage> {
                 ),
               ),
               SizedBox(
-                height: 50,
+                height: 30,
               ),
               DataTable(
                   columns: [
@@ -115,65 +119,12 @@ class _EmployeePageState extends State<EmployeePage> {
                             DataCell(Text(e.empsalary.toString()))
                           ]))
                       .toList()),
+              Divider(
+                thickness: 2,
+                color: Colors.black,
+              ),
               SizedBox(
                 height: 30,
-              ),
-              Text(name),
-              SizedBox(
-                height: 40,
-                width: 130,
-                child: TextField(
-                  controller: _namecontroller,
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Name",
-                  ),
-                  onChanged: (value) {},
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 130,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Name",
-                  ),
-                  onChanged: (value) {},
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 130,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Name",
-                  ),
-                  onChanged: (value) {},
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 130,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Name",
-                  ),
-                  onChanged: (value) {},
-                ),
-              ),
-              SizedBox(
-                height: 40,
-                width: 130,
-                child: TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "Name",
-                  ),
-                  onChanged: (value) {},
-                ),
               ),
             ],
           ),

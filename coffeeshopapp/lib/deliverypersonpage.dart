@@ -315,6 +315,12 @@ class _DPpageState extends State<DPpage> {
                               await http.put(url, headers: requestHeaders1);
                           print("Response Status : ${response.statusCode}");
                           print("Response body : " + response.body);
+                          var url1 = Uri.parse(
+                              'http://192.168.0.103:4000/orderdb/order/$orderid/$status');
+                          var response1 =
+                              await http.put(url1, headers: requestHeaders1);
+                          print("Response Status : ${response1.statusCode}");
+                          print("response body : " + response1.body);
                           setState(() {
                             viewdeliveryorder();
                           });
@@ -354,6 +360,12 @@ class _DPpageState extends State<DPpage> {
                               await http.put(url, headers: requestHeaders1);
                           print("Response Status : ${response.statusCode}");
                           print("Response body : " + response.body);
+                          var url1 = Uri.parse(
+                              'http://192.168.0.103:4000/orderdb/order/$orderid/$status');
+                          var response1 =
+                              await http.put(url1, headers: requestHeaders1);
+                          print("Response Status : ${response1.statusCode}");
+                          print("response body : " + response1.body);
                           setState(() {
                             viewdeliveryorder();
                           });

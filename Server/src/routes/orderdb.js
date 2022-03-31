@@ -92,13 +92,13 @@ router4.post('/:order', (req, res) => {
 
 });
 
-router4.put('/:order/:orderid/:isreceived', (req, res) => {
+router4.put('/order/:orderid/:isreceived', (req, res) => {
     var orderid = req.body.orderid;
     var status = req.body.isreceived;
     console.log(status);
     mysqlConnection.query('update orderdb set isreceived=? where orderid = ?', [status, orderid], (error, rows, fields) => {
         if (!error) {
-            res.json({ Status: 'Menu data updated ..!!' });
+            res.json({ Status: 'Order data updated ..!!' });
 
         } else {
             console.log(error);
