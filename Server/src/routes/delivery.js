@@ -17,10 +17,10 @@ router5.get('/:delivery', async(req, res) => {
     });
 });
 
-router5.get('/:delivery/:deliveryid', async(req, res) => {
-    var deliveryid = req.params.deliveryid;
-    console.log(deliveryid);
-    mysqlConnection.query('select * from delivery where deliveryid=? ;', [deliveryid], (error, rows, fields) => {
+router5.get('/:delivery/:orderid', async(req, res) => {
+    var orderid = req.params.orderid;
+    console.log(orderid);
+    mysqlConnection.query('select * from delivery where orderid=? ;', [orderid], (error, rows, fields) => {
         if (!error) {
             res.json(rows);
             console.log(rows);
@@ -45,10 +45,26 @@ router5.get('/delivery/deliveryid/:isreceived', async(req, res) => {
     });
 });
 
+router5.get('/delivery/order/:orderid/:isreceived', async(req, res) => {
+    var orderid = req.params.orderid;
+    var status = req.params.isreceived;
+    console.log(status);
+    mysqlConnection.query('select * from delivery where orderid=? and isreceived=? ;', [orderid,status], (error, rows, fields) => {
+        if (!error) {
+            res.json(rows);
+            console.log(rows);
+
+        } else {
+            console.log(error);
+        }
+    });
+});
+
 router5.get('/delivery/deliveryid/:custid/:isreceived', async(req, res) => {
     var status = req.params.isreceived;
     var custid = req.params.custid;
     console.log(status);
+    console.log(custid);
     mysqlConnection.query('select * from delivery where isreceived=? and custid=?;', [status,custid], (error, rows, fields) => {
         if (!error) {
             res.json(rows);
@@ -90,14 +106,15 @@ router5.post('/:delivery', (req, res) => {
 
 });
 
-router5.put('/delivery/:deliveryid/:isreceived', (req, res) => {
-    var deliveryid = req.body.deliveryid;
-    var status = req.body.isreceived;
-    console.log(deliveryid);
+router5.put('/delivery/customer/:orderid/:isreceived', (req, res) => {
+    var orderid = req.params.orderid;
+    var status = req.params.isreceived;
+    console.log(orderid);
     console.log(status);
-    mysqlConnection.query('update delivery set isreceived=? where deliveryid = ?', [status, deliveryid], (error, rows, fields) => {
+    mysqlConnection.query('update delivery set isreceived=? where orderid = ?', [status, orderid], (error, rows, fields) => {
         if (!error) {
-            res.json({ Status: 'Menu data updated ..!!' });
+            res.json({ Status: 'Delivery record updated ..!!' });
+            //console.log(res);
 
         } else {
             console.log(error);

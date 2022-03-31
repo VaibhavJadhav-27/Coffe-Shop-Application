@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:math';
+import 'package:coffeeshopapp/admindashboard.dart';
 import 'package:coffeeshopapp/deliverypersonpage.dart';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:http/http.dart' as http;
@@ -52,64 +53,55 @@ class _Login_PageState extends State<Login_Page> {
     }
 
     void verify_password() async {
-      var url = Uri.parse(
-          'http://192.168.0.103:4000/customer/customer1/$email/$password');
+      var url1 =
+          Uri.parse('http://192.168.0.103:4000/login/login/$email/$password');
+      var response1 = await http.get(url1);
+      var responsejson = json.decode(response1.body.toString());
+      var status = responsejson[0]["status"];
+      print(status);
+      if (response1.body == "NO entries") {
+        createAlertDialog(context);
+      } else {
+        if (status == "admin") {
+          var url2 = Uri.parse(
+              'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
+          var response2 = await http.get(url2);
+          var empjson = json.decode(response2.body.toString());
+          var profile = empjson[0]["empname"];
+          print(profile);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => AdminDashboard(profile: profile)));
+        }
+        if (status == "deliveryperson") {
+          var url2 = Uri.parse(
+              'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
+          var response2 = await http.get(url2);
+          var empjson = json.decode(response2.body.toString());
+          var profile = empjson[0]["empname"];
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => DPpage(profile: profile)));
+        }
+        if (status == "customer") {
+          var url = Uri.parse(
+              'http://192.168.0.103:4000/customer/customer1/$email/$password');
 
-      Map<String, String> requestHeaders = {
-        'Content-type': 'application/json',
-        'Accept': 'application/json',
-      };
-      var response = await http.get(url);
-
-      //getting employee name frm employee table
-      var url2 = Uri.parse(
-          'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
-      var response2 = await http.get(url2, headers: requestHeaders);
-      var empjson = json.decode(response2.body.toString());
-
-      if (response.statusCode == 200 || response2.statusCode == 200) {
-        print(response.body.toString());
-        print(response2.body.toString());
-        if (response.body == "NO entries") {
-          if (response2.body == "no entries") {
-            createAlertDialog(context);
-          } else {
-            print("successful.!!!");
-            var url1 = Uri.parse(
-                'http://192.168.0.103:4000/login/login/$email/$password');
-            var response1 = await http.get(url1);
-            var responsejson = json.decode(response1.body.toString());
-            var status = responsejson[0]["status"];
-            print(status);
-            if (status == "admin") {
-              var profile = empjson[0]["empname"];
-            }
-            if (status == "deliveryperson") {
-              var profile = empjson[0]["empname"];
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => DPpage(profile: profile)));
-            }
-          }
-        } else {
-          print("successful.!!!");
+          Map<String, String> requestHeaders = {
+            'Content-type': 'application/json',
+            'Accept': 'application/json',
+          };
+          var response = await http.get(url);
           var jsonresponse = json.decode(response.body.toString());
-          var url1 = Uri.parse(
-              'http://192.168.0.103:4000/login/login/$email/$password');
-          var response1 = await http.get(url1);
-          var responsejson = json.decode(response1.body.toString());
-          var status = responsejson[0]["status"];
-          print(status);
-          if (status == "customer") {
-            var profile = jsonresponse[0]["custname"];
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Homepage(
-                          profile: profile,
-                        )));
-          }
+          var profile = jsonresponse[0]["custname"];
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Homepage(
+                        profile: profile,
+                      )));
         }
       }
     }
