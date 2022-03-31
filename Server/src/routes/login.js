@@ -71,9 +71,9 @@ router1.put('/:login', (req, res) => {
     });
 });
 
-router1.delete('/login', (req, res) => {
-    var custemail = req.body.custemail;
-    console.log(custid);
+router1.delete('/login/:custemail', (req, res) => {
+    var custemail = req.params.custemail;
+    console.log(custemail);
     mysqlConnection.query('delete from login where custemail =?', [custemail], (error, rows, fields) => {
         if (!error) {
             res.json({ Status: 'Login record deleted ...!!' });
