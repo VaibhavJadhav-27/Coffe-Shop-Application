@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:math';
+import 'package:coffeeshopapp/deliverypersonpage.dart';
 import 'package:coffeeshopapp/home_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:coffeeshopapp/Register_Page.dart';
@@ -59,9 +60,17 @@ class _Login_PageState extends State<Login_Page> {
         'Accept': 'application/json',
       };
       var response = await http.get(url);
+
+      //getting employee name frm employee table
+      var url2 = Uri.parse(
+          'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
+      var response2 = await http.get(url2, headers: requestHeaders);
+      var empjson = json.decode(response2.body.toString());
+
       if (response.statusCode == 200) {
         print(response.body.toString());
-        if (response.body == "NO entries") {
+        print(response2.body.toString());
+        if (response.body == "NO entries" || response2.body == "NO entries") {
           createAlertDialog(context);
         } else {
           print("successful.!!!");
@@ -81,8 +90,16 @@ class _Login_PageState extends State<Login_Page> {
                           profile: profile,
                         )));
           }
-          if (status == "admin") {}
-          if (status == "deliveryperson") {}
+          if (status == "admin") {
+            var profile = empjson[0]["empname"];
+          }
+          if (status == "deliveryperson") {
+            var profile = empjson[0]["empname"];
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => DPpage(profile: profile)));
+          }
         }
       }
     }

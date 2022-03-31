@@ -8,6 +8,7 @@ const menu = require("./routes/menu");
 const delivery = require("./routes/delivery");
 const orderdb = require("./routes/orderdb");
 const cart = require("./routes/cart");
+const employee = require("./routes/employee");
 
 //Settings
 app.set('port', process.env.PORT || 4000);
@@ -23,6 +24,7 @@ app.use("/menu", menu);
 app.use("/orderdb", orderdb);
 app.use("/delivery", delivery);
 app.use("/cart", cart);
+app.use("/employee",employee);
 
 //Starting the server
 app.listen(app.get('port'), () => {
