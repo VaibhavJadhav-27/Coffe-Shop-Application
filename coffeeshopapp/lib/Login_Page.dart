@@ -22,6 +22,7 @@ class _Login_PageState extends State<Login_Page> {
 
   String email = "";
   String password = "";
+  String notify = "";
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +58,16 @@ class _Login_PageState extends State<Login_Page> {
           Uri.parse('http://192.168.0.103:4000/login/login/$email/$password');
       var response1 = await http.get(url1);
       var responsejson = json.decode(response1.body.toString());
-      var status = responsejson[0]["status"];
-      print(status);
-      if (response1.body == "NO entries") {
+
+      print(response1.body);
+      if (responsejson == "NO entries") {
         setState(() {
+          notify = "Wrong Inputs..!!!";
           createAlertDialog(context);
         });
       } else {
+        var status = responsejson[0]["status"];
+        print(status);
         if (status == "admin") {
           var url2 = Uri.parse(
               'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
@@ -182,6 +186,9 @@ class _Login_PageState extends State<Login_Page> {
                     onPressed: () {
                       if (email == "" || password == "") {
                         print("Fill all the fields...!!");
+                        setState(() {
+                          notify = "Fill all the fields";
+                        });
                       } else {
                         verify_password();
                       }
@@ -209,7 +216,11 @@ class _Login_PageState extends State<Login_Page> {
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(101, 30, 62, 1)),
-                ))
+                )),
+            SizedBox(
+              height: 30,
+            ),
+            Text(notify)
           ],
         ),
       ),
