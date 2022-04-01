@@ -28,7 +28,7 @@ class _DPpageState extends State<DPpage> {
 
     Future<List<Delivery>> viewdeliveryorder() async {
       var url =
-          Uri.parse('http://192.168.0.103:4000/delivery/delivery/$orderid');
+          Uri.parse('http://192.168.0.201:4000/delivery/delivery/$orderid');
       var response = await http.get(url);
       var orderjson = json.decode(response.body.toString());
       status = orderjson[0]["isreceived"];
@@ -307,7 +307,7 @@ class _DPpageState extends State<DPpage> {
                           confirmorderid = orderid;
                           status = "Departed";
                           var url = Uri.parse(
-                              'http://192.168.0.103:4000/delivery/delivery/customer/$confirmorderid/$status');
+                              'http://192.168.0.201:4000/delivery/delivery/customer/$confirmorderid/$status');
                           Map<String, String> requestHeaders1 = {
                             'Content-type': 'application/json',
                             'Accept': 'application/json',
@@ -317,7 +317,7 @@ class _DPpageState extends State<DPpage> {
                           print("Response Status : ${response.statusCode}");
                           print("Response body : " + response.body);
                           var url1 = Uri.parse(
-                              'http://192.168.0.103:4000/orderdb/order/$orderid/$status');
+                              'http://192.168.0.201:4000/orderdb/order/$orderid/$status');
                           var response1 =
                               await http.put(url1, headers: requestHeaders1);
                           print("Response Status : ${response1.statusCode}");
@@ -352,7 +352,7 @@ class _DPpageState extends State<DPpage> {
                           confirmorderid = orderid;
                           status = "true";
                           var url = Uri.parse(
-                              'http://192.168.0.103:4000/delivery/delivery/customer/$confirmorderid/$status');
+                              'http://192.168.0.201:4000/delivery/delivery/customer/$confirmorderid/$status');
                           Map<String, String> requestHeaders1 = {
                             'Content-type': 'application/json',
                             'Accept': 'application/json',
@@ -362,7 +362,7 @@ class _DPpageState extends State<DPpage> {
                           print("Response Status : ${response.statusCode}");
                           print("Response body : " + response.body);
                           var url1 = Uri.parse(
-                              'http://192.168.0.103:4000/orderdb/order/$orderid/$status');
+                              'http://192.168.0.201:4000/orderdb/order/$orderid/$status');
                           var response1 =
                               await http.put(url1, headers: requestHeaders1);
                           print("Response Status : ${response1.statusCode}");

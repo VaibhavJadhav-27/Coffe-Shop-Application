@@ -102,7 +102,7 @@ class _detailpageState extends State<detailpage> {
     void updatecartitems() async {
       //For getting customer id from customer name
       var url1 =
-          Uri.parse('http://192.168.0.103:4000/customer/customer/$custname');
+          Uri.parse('http://192.168.0.201:4000/customer/customer/$custname');
       Map<String, String> requestHeaders1 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -115,7 +115,7 @@ class _detailpageState extends State<detailpage> {
 
 // checking if the item is present in the cart of that particular customer
       var url2 =
-          Uri.parse('http://192.168.0.103:4000/cart/cart/$custid/$itemid');
+          Uri.parse('http://192.168.0.201:4000/cart/cart/$custid/$itemid');
       Map<String, String> requestHeaders2 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -129,7 +129,7 @@ class _detailpageState extends State<detailpage> {
         int iprice = itemjson[0]["itemprice"];
         int res = iprice * int.parse(quantity1);
         print("data available");
-        var url = Uri.parse('http://192.168.0.103:4000/cart/cart');
+        var url = Uri.parse('http://192.168.0.201:4000/cart/cart');
         Map<String, String> requestHeaders = {
           'Content-type': 'application/json',
           'Accept': 'application/json',
@@ -151,7 +151,7 @@ class _detailpageState extends State<detailpage> {
         }
       } on RangeError {
         //if data is not present, insert all the details
-        var url4 = Uri.parse('http://192.168.0.103:4000/menu/menu/$itemname');
+        var url4 = Uri.parse('http://192.168.0.201:4000/menu/menu/$itemname');
         Map<String, String> requestHeaders2 = {
           'Content-type': 'application/json',
           'Accept': 'application/json',
@@ -162,7 +162,7 @@ class _detailpageState extends State<detailpage> {
         int iprice = item1json[0]["itemprice"];
         int res = iprice * int.parse(quantity1);
         print("Not available");
-        var url = Uri.parse('http://192.168.0.103:4000/cart/cart');
+        var url = Uri.parse('http://192.168.0.201:4000/cart/cart');
         Map<String, String> requestHeaders = {
           'Content-type': 'application/json',
           'Accept': 'application/json',

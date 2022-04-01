@@ -38,14 +38,14 @@ class _checkoutState extends State<checkout> {
     void getcartitems() async {
       //for getting customer id from customer name
       var url =
-          Uri.parse('http://192.168.0.103:4000/customer/customer/$custname');
+          Uri.parse('http://192.168.0.201:4000/customer/customer/$custname');
       var response = await http.get(url);
       var custjson = json.decode(response.body);
       print(custjson);
       custid = custjson[0]["custid"];
       print(custid);
 
-      var url1 = Uri.parse('http://192.168.0.103:4000/cart/cart/$custid');
+      var url1 = Uri.parse('http://192.168.0.201:4000/cart/cart/$custid');
       var response1 = await http.get(url1);
       var cartjson = json.decode(response1.body);
       print(cartjson);
@@ -60,7 +60,7 @@ class _checkoutState extends State<checkout> {
       }
       print(listitems);
 
-      var url2 = Uri.parse('http://192.168.0.103:4000/orderdb/order');
+      var url2 = Uri.parse('http://192.168.0.201:4000/orderdb/order');
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -89,7 +89,7 @@ class _checkoutState extends State<checkout> {
       }
       // to find orderid
       var url3 = Uri.parse(
-          'http://192.168.0.103:4000/orderdb/order/orderid/$custid/$ordertime');
+          'http://192.168.0.201:4000/orderdb/order/orderid/$custid/$ordertime');
       var response3 = await http.get(url3);
       var orderjson = json.decode(response3.body);
       var orderid = orderjson[0]["orderid"];
@@ -100,7 +100,7 @@ class _checkoutState extends State<checkout> {
       //to enter recorde in delivery table;
       String combined_address =
           add1 + ", Mumbai : " + pin + ", Contact number : " + phone;
-      var url4 = Uri.parse('http://192.168.0.103:4000/delivery/delivery');
+      var url4 = Uri.parse('http://192.168.0.201:4000/delivery/delivery');
       var body4 = jsonEncode({
         'custid': custid,
         'orderid': orderid,

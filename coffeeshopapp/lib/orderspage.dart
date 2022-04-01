@@ -28,7 +28,7 @@ class _OrderPageState extends State<OrderPage> {
 
     Future<List<Delivery>> viewcustomerorder() async {
       var url1 =
-          Uri.parse('http://192.168.0.103:4000/customer/customer/$profile');
+          Uri.parse('http://192.168.0.201:4000/customer/customer/$profile');
       Map<String, String> requestHeaders1 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ class _OrderPageState extends State<OrderPage> {
 
       //fetching active orders using customer id and isreceived as false
       var url2 = Uri.parse(
-          'http://192.168.0.103:4000/delivery/delivery/deliveryid/$custid/false');
+          'http://192.168.0.201:4000/delivery/delivery/deliveryid/$custid/false');
       var response2 = await http.get(url2, headers: requestHeaders1);
       var deliveryjson = json.decode(response2.body);
       List<Delivery> deliveryitems = [];
@@ -56,7 +56,7 @@ class _OrderPageState extends State<OrderPage> {
 
     Future<List<Delivery>> viewcustomerorder1() async {
       var url1 =
-          Uri.parse('http://192.168.0.103:4000/customer/customer/$profile');
+          Uri.parse('http://192.168.0.201:4000/customer/customer/$profile');
       Map<String, String> requestHeaders1 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -68,7 +68,7 @@ class _OrderPageState extends State<OrderPage> {
 
       //fetching active orders using customer id and isreceived as false
       var url2 = Uri.parse(
-          'http://192.168.0.103:4000/delivery/delivery/deliveryid/$custid/true');
+          'http://192.168.0.201:4000/delivery/delivery/deliveryid/$custid/true');
       var response2 = await http.get(url2, headers: requestHeaders1);
       var deliveryjson = json.decode(response2.body);
       List<Delivery> deliveryitems = [];

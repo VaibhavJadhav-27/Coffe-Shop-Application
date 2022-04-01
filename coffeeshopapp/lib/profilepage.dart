@@ -27,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   void getUserDetails() async {
     profile = widget.custname;
     print(profile);
-    var url = Uri.parse('http://192.168.0.103:4000/customer/customer/$profile');
+    var url = Uri.parse('http://192.168.0.201:4000/customer/customer/$profile');
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
