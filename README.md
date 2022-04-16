@@ -14,3 +14,8 @@ Following are the screenshots of the app.
 1.The Register Screen
 
 ![2](https://user-images.githubusercontent.com/43025108/163679613-ba05fbbd-a607-49c5-95bb-aee674a6a964.jpg)
+
+
+2. The Login Screen
+
+![1](https://user-images.githubusercontent.com/43025108/163679656-afb78fcc-28b7-4276-a61f-ff4cb7c7d32e.jpg)
