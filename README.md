@@ -38,7 +38,7 @@ Following are the screenshots of the app.
 
 ![cp2 1](https://user-images.githubusercontent.com/43025108/163679978-659f2c2a-cc85-4801-bd64-b56356daff84.jpg)
 ![cp2 2](https://user-images.githubusercontent.com/43025108/163680007-264cd4b5-fbec-421f-9700-654b7c65619c.jpg)
-
+![cp2 3](https://user-images.githubusercontent.com/43025108/163680276-aeb256f8-d5c7-4e2f-85d4-e7d5fe240882.jpg)
 
 
 
