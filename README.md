@@ -46,8 +46,6 @@ Following are the screenshots of the app.
 6. The Detail Screen
 
 ![cp3](https://user-images.githubusercontent.com/43025108/163680196-964dee21-d4c7-40d8-919c-5572ff5cc394.jpg)
-
-
 ![cp3 2](https://user-images.githubusercontent.com/43025108/163680048-6b876398-0a65-4803-8b75-07ac468c7c0e.jpg)
 
 
