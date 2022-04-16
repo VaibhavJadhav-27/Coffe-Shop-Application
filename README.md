@@ -23,12 +23,13 @@ Following are the screenshots of the app.
 
 
 3. The Admin Screen
-
 ![ap1](https://user-images.githubusercontent.com/43025108/163679946-235ec3df-c526-496a-92a7-7956d2ca1bad.jpg)
+
 
 
 4. HomePage for Customer
 ![cp1](https://user-images.githubusercontent.com/43025108/163679969-de241b9e-13cd-4c3a-9b29-d7b649685b81.jpg)
+
 
 
 5. The Menu Screen
@@ -40,10 +41,12 @@ Following are the screenshots of the app.
 .jpg)
 
 
+
 6. The Detail Screen
 ![Uploading cp3.jpg…]()
 
 ![cp3 2](https://user-images.githubusercontent.com/43025108/163680048-6b876398-0a65-4803-8b75-07ac468c7c0e.jpg)
+
 
 
 7. Cart Screen
