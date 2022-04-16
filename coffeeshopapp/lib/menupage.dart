@@ -43,19 +43,19 @@ class _MenuPageState extends State<MenuPage> {
       menuitems.add(menu);
     }*/
 
-    var url = Uri.parse('http://192.168.0.201:4000/menu/menu');
+    var url = Uri.parse('http://192.168.0.103:4000/menu/menu');
     if (hotcoffee == false && coldcoffee == false && desserts == false) {
-      url = Uri.parse('http://192.168.0.201:4000/menu/menu');
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu');
     }
     if (hotcoffee == true) {
-      url = Uri.parse('http://192.168.0.201:4000/menu/menu/itemname/hotcoffee');
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/hotcoffee');
     }
     if (coldcoffee == true) {
       url =
-          Uri.parse('http://192.168.0.201:4000/menu/menu/itemname/coldcoffee');
+          Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/coldcoffee');
     }
     if (desserts == true) {
-      url = Uri.parse('http://192.168.0.201:4000/menu/menu/itemname/desserts');
+      url = Uri.parse('http://192.168.0.103:4000/menu/menu/itemname/desserts');
     }
     Map<String, String> requestHeaders = {
       'Content-type': 'application/json',

@@ -30,7 +30,7 @@ class _cartpageState extends State<cartpage> {
     Future<List<Cart>> displaycart() async {
       //getting the customer id using customer name
       var url1 =
-          Uri.parse('http://192.168.0.201:4000/customer/customer/$profile');
+          Uri.parse('http://192.168.0.103:4000/customer/customer/$profile');
       Map<String, String> requestHeaders1 = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -40,7 +40,7 @@ class _cartpageState extends State<cartpage> {
       print(custjson);
       int custid = custjson[0]["custid"];
 //getting cart item from cart using custid
-      var url = Uri.parse('http://192.168.0.201:4000/cart/cart/$custid');
+      var url = Uri.parse('http://192.168.0.103:4000/cart/cart/$custid');
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -89,7 +89,7 @@ class _cartpageState extends State<cartpage> {
                       check = true;
                       previous_total = total;
                       var url = Uri.parse(
-                          'http://192.168.0.201:4000/cart/cart/delete/$cid/$iid');
+                          'http://192.168.0.103:4000/cart/cart/delete/$cid/$iid');
                       var response = await http.delete(url);
                       var result = json.decode(response.body);
                       print("Response Status code : ${response.statusCode}");

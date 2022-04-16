@@ -33,7 +33,7 @@ class _EmployeePageState extends State<EmployeePage> {
 
   List<Employee> emprecords = [];
   Future<List<Employee>> fetchdetails() async {
-    var url = Uri.parse('http://192.168.0.201:4000/employee/employee');
+    var url = Uri.parse('http://192.168.0.103:4000/employee/employee');
     var response = await http.get(url);
     var empjson = json.decode(response.body);
     for (var u in empjson) {
@@ -49,7 +49,7 @@ class _EmployeePageState extends State<EmployeePage> {
   }
 
   void addemployee() async {
-    var url = Uri.parse('http://192.168.0.201:4000/employee/employee');
+    var url = Uri.parse('http://192.168.0.103:4000/employee/employee');
     Map<String, String> requestHeaders1 = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
@@ -383,7 +383,7 @@ class _EmployeePageState extends State<EmployeePage> {
                     ElevatedButton(
                         onPressed: () async {
                           var url = Uri.parse(
-                              'http://192.168.0.201:4000/employee/employee');
+                              'http://192.168.0.103:4000/employee/employee');
                           var response = await http.delete(url);
                           var result = json.decode(response.body);
                           print(result);

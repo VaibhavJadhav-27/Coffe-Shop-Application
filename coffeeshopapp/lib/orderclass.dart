@@ -22,7 +22,7 @@ class _ProfileAdminState extends State<ProfileAdmin> {
 
     void getUserDetails() async {
       var url =
-          Uri.parse('http://192.168.0.201:4000/employee/employee/$profile');
+          Uri.parse('http://192.168.0.103:4000/employee/employee/$profile');
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',

@@ -65,7 +65,7 @@ class _register_pageState extends State<register_page> {
     }
 
     void createUserRequest() async {
-      var url = Uri.parse('http://192.168.0.201:4000/customer/customer');
+      var url = Uri.parse('http://192.168.0.103:4000/customer/customer');
       Map<String, String> requestHeaders = {
         'Content-type': 'application/json',
         'Accept': 'application/json',
@@ -85,7 +85,7 @@ class _register_pageState extends State<register_page> {
           print("Email or phone no is already registered..!!!");
           createAlertDialog(context);
         } else {
-          var url1 = Uri.parse('http://192.168.0.201:4000/login/login');
+          var url1 = Uri.parse('http://192.168.0.103:4000/login/login');
           Map<String, String> requestHeaders = {
             'Content-type': 'application/json',
             'Accept': 'application/json',

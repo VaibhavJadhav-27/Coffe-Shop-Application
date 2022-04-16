@@ -19,7 +19,7 @@ class _DeliveryAdminState extends State<DeliveryAdmin> {
   List<Delivery> deliveryitems = [];
 
   Future<List<Delivery>> viewdeliveryorder() async {
-    var url = Uri.parse('http://192.168.0.201:4000/delivery/delivery');
+    var url = Uri.parse('http://192.168.0.103:4000/delivery/delivery');
     var response = await http.get(url);
     var orderjson = json.decode(response.body.toString());
 

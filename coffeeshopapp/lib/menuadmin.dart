@@ -18,7 +18,7 @@ class _MenuAdminState extends State<MenuAdmin> {
   String name = "";
   List<Menu> menurecords = [];
   Future<List<Menu>> fetchdetails() async {
-    var url = Uri.parse('http://192.168.0.201:4000/menu/menu');
+    var url = Uri.parse('http://192.168.0.103:4000/menu/menu');
     var response = await http.get(url);
     var empjson = json.decode(response.body);
     for (var u in empjson) {

@@ -55,7 +55,7 @@ class _Login_PageState extends State<Login_Page> {
 
     void verify_password() async {
       var url1 =
-          Uri.parse('http://192.168.0.201:4000/login/login/$email/$password');
+          Uri.parse('http://192.168.0.103:4000/login/login/$email/$password');
       var response1 = await http.get(url1);
       var responsejson = json.decode(response1.body.toString());
 
@@ -70,7 +70,7 @@ class _Login_PageState extends State<Login_Page> {
         print(status);
         if (status == "admin") {
           var url2 = Uri.parse(
-              'http://192.168.0.201:4000/employee/employee/empid/$email/$password');
+              'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
           var response2 = await http.get(url2);
           var empjson = json.decode(response2.body.toString());
           var profile = empjson[0]["empname"];
@@ -82,7 +82,7 @@ class _Login_PageState extends State<Login_Page> {
         }
         if (status == "deliveryperson") {
           var url2 = Uri.parse(
-              'http://192.168.0.201:4000/employee/employee/empid/$email/$password');
+              'http://192.168.0.103:4000/employee/employee/empid/$email/$password');
           var response2 = await http.get(url2);
           var empjson = json.decode(response2.body.toString());
           var profile = empjson[0]["empname"];
@@ -93,7 +93,7 @@ class _Login_PageState extends State<Login_Page> {
         }
         if (status == "customer") {
           var url = Uri.parse(
-              'http://192.168.0.201:4000/customer/customer1/$email/$password');
+              'http://192.168.0.103:4000/customer/customer1/$email/$password');
 
           Map<String, String> requestHeaders = {
             'Content-type': 'application/json',
