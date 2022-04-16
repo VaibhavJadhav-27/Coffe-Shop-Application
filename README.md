@@ -18,4 +18,4 @@ Following are the screenshots of the app.
 
 2. The Login Screen
 
-![1](https://user-images.githubusercontent.com/43025108/163679685-09ee1a3b-2fa0-42de-88b2-447da1f8130a.jpg)
+![1](https://user-images.githubusercontent.com/43025108/163679704-320e8a30-dc19-44ba-9e17-1ba9c9923838.jpg)
